@@ -1,0 +1,133 @@
+<page-header [title]="'上下架申请'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">销售管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">产品管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">上下架申请</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <!--<button nz-button [nzType]="'primary'" (click)="add()" ><i nz-icon type="plus"></i><span>添加</span></button>-->
+        <button nz-button [nzType]="'primary'" (click)="viewData()" ><span>查看数据</span></button>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-label nzFor="problemType">店铺</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_shopName" name="searchItem_shopName" placeholder="店铺搜索" id="searchItem_shopName">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="searchItem_brandName">品牌</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_brandName" name="searchItem_brandName" placeholder="品牌搜索" id="searchItem_brandName">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="searchItem_goodName">商品</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_goodName" name="searchItem_goodName" placeholder="商品搜索" id="searchItem_goodName">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="searchItem_shopName">申请人</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_applicant" name="searchItem_applicant" placeholder="申请人搜索" id="searchItem_applicant">
+                    </nz-form-control>
+                </nz-form-item>
+                <br>
+                <nz-form-item>
+                    <nz-form-label nzFor="problemType">申请类型</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择类型'" nzId="searchItem_applyType" [nzShowSearch]="true" [(ngModel)]="searchItem_applyType" name="searchItem_applyType">
+                            <nz-option *ngFor="let tmp of applyType; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="dateRange"> 起止时间</nz-form-label>
+                    <nz-form-control>
+                        <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime name="dateRange" [nzFormat]="dateFormat"></nz-range-picker>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search(true)" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;">
+                    <nz-table
+                        #ajaxTable
+                        nzBordered
+                        nzShowSizeChanger
+                        [nzFrontPagination]="false"
+                        [nzData]="shelves"
+                        [nzLoading]="loading"
+                        [nzTotal]="totalElements"
+                        [(nzPageIndex)]="page"
+                        [(nzPageSize)]="itemsPerPage"
+                        [nzShowTotal]="totalTemplate"
+                        (nzPageIndexChange)="loadAll()"
+                        (nzPageSizeChange)="initData(false)"
+                        [nzShowPagination]="true">
+                        <thead (nzSortChange)="sort($event)" nzSingleSort>
+                        <tr>
+                            <th nzShowSort nzSortKey="id">id</th>
+                            <th nzShowSort nzSortKey="approveInfo.shop.shopName">店铺</th>
+                            <th nzShowSort nzSortKey="approveInfo.good.brand.brandName">品牌</th>
+                            <th nzShowSort nzSortKey="approveInfo.good.goodName">商品</th>
+                            <th nzShowSort nzSortKey="applyType">上/下架</th>
+                            <th nzShowSort nzSortKey="approveInfo.createdDate">申请时间</th>
+                            <th nzShowSort nzSortKey="approveInfo.applicant">申请人</th>
+                            <th nzShowSort nzSortKey="approveInfo.status">状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let shelve of shelves">
+                            <td>{{shelve.id}}</td>
+                            <td>{{shelve.approveInfoDTO.shopName}}</td>
+                            <td>{{shelve.approveInfoDTO.brandName}}</td>
+                            <td>
+                                <span>{{shelve.approveInfoDTO.goodName}}</span>
+                            </td>
+                            <td>
+                                <span *ngIf="shelve.applyType == 1">上架</span>
+                                <span *ngIf="shelve.applyType == 2">永久下架</span>
+                                <span *ngIf="shelve.applyType == 3">临时下架</span>
+                            </td>
+                            <td>{{shelve.approveInfoDTO.createdDate | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td>{{shelve.approveInfoDTO.applicant}}</td>
+                            <td>
+                                <span *ngIf="shelve.approveInfoDTO && shelve.approveInfoDTO.status == 1">待审批</span>
+                                <span *ngIf="shelve.approveInfoDTO && shelve.approveInfoDTO.status == 2">已通过</span>
+                                <span *ngIf="shelve.approveInfoDTO && shelve.approveInfoDTO.status == 3">已拒绝</span>
+                                <span *ngIf="shelve.approveInfoDTO && shelve.approveInfoDTO.status == 12">已完结</span>
+                                <span *ngIf="shelve.approveInfoDTO && (shelve.approveInfoDTO.status == 6 || shelve.approveInfoDTO.status == 9 || shelve.approveInfoDTO.status == 11)">已撤销</span>
+                            </td>
+                            <td>
+                                <button nz-button [nzType]="'primary'" (click)="check(shelve.id)">查看</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                    <ng-template #totalTemplate let-total>
+                        总共 {{totalElements}} 条
+                    </ng-template>
+                </nz-card>
+        </nz-card>
+    </div>
+</div>

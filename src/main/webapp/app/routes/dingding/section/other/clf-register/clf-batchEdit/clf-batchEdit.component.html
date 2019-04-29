@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <div class="modal-title">批量编辑-售后登记</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save()" nz-form>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">处理方式</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择处理方式'" nzId="helpType" [nzAllowClear]="false" [(ngModel)]="batchEditActionType" name="actionType" required>
+                <nz-option *ngFor="let tmp of actionType; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">备注说明</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="batchEditRemarks" name="remarks" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">客服操作备注</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="batchEditTreatment" name="treatment" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

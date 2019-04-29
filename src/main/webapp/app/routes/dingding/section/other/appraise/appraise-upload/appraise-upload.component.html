@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <div class="modal-title">选择店铺上传评价数据</div>
+</div>
+<form nz-form [nzLayout]="'vertical'">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择店铺</nz-form-label>
+        <nz-form-control  nzSpan="10">
+            <nz-select [nzPlaceHolder]="'请选择店铺'" nzId="storeName" [nzAllowClear]="false" [(ngModel)]="storeName" name="storeName" required>
+                <nz-option *ngFor="let tmp of storeNames;" [nzLabel]="tmp" [nzValue]="tmp"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择文件</nz-form-label>
+        <nz-form-control  nzSpan="10">
+            <nz-button-group>
+                <button nz-button nzType="primary" (click)="importClick()">点击上传文件
+                    <input #importInput type="file" (change)="change($event)" multiple="false" class="ml-sm file_Input"/>
+                </button>
+            </nz-button-group>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <!--<button nz-button [nzType]="'default'" (click)="cancel()">取消</button>-->
+        <button nz-button [nzType]="'primary'" (click)="ok()">确定</button>
+    </div>
+</form>

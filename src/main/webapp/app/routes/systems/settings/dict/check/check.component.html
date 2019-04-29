@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <div class="modal-title">数据字典-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="data">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">键名</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.name}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">键值</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.value}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">描述</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.description}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">序列号</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.seq}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">备注</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.remark}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">状态</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="data.status">激活</span>
+            <span *ngIf="!data.status">失效</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

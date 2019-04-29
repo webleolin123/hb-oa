@@ -1,0 +1,65 @@
+<form #f="ngForm" (ngSubmit)="save()" nz-form>
+    <div class="modal-header">
+        <div class="modal-title">添加-{{!parentData.id? '角色' : '人员'}}</div>
+    </div>
+    <ng-container  *ngIf="!parentData.id">
+        <nz-form-item class="mb-sm">
+            <nz-form-label nzSpan="4">角色名称</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <input nz-input [(ngModel)]="role.roleName" name="roleName" maxlength="50" required />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm">
+            <nz-form-label nzSpan="4">角色类型</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <input nz-input [(ngModel)]="role.roleType" name="roleType" maxlength="50" required />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm">
+            <nz-form-label nzSpan="4">角色等级</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <input nz-input [(ngModel)]="role.level" name="roleLevel" maxlength="50" required />
+            </nz-form-control>
+        </nz-form-item>
+    </ng-container>
+    <ng-container *ngIf="parentData.id">
+        <nz-form-item class="mb-sm">
+            <nz-form-label nzSpan="4" >选择部门</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <nz-select
+                    nzAllowClear
+                    nzShowSearch
+                    nzPlaceHolder="选择部门 (支持模糊搜索)"
+                    [nzMaxTagCount]="1"
+                    [(ngModel)]="departmentId"
+                    (ngModelChange)="loadDepartmentUser(departmentId)"
+                    name="selectedDepartmentId"
+                    required>
+                    <!--<nz-option *ngFor="let tmp of departments" [nzLabel]="tmp" [nzValue]="tmp">-->
+                    <nz-option *ngFor="let tmp of departments" [nzLabel]="tmp.name" [nzValue]="tmp.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm" *ngIf="departmentId">
+            <nz-form-label nzSpan="4" >选择人员</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <nz-select
+                    nzAllowClear
+                    nzShowSearch
+                    nzPlaceHolder="选择人员 (支持模糊搜索)"
+                    [nzMaxTagCount]="1"
+                    [(ngModel)]="dingId"
+                    name="selectedDepartmentUserId"
+                    required>
+                    <nz-option *ngFor="let tmp of departmentUsers" [nzLabel]="tmp.name" [nzValue]="tmp.userid">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+    </ng-container>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

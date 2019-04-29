@@ -1,0 +1,80 @@
+<page-header [title]="'消息中心'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">消息通知</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">消息中心</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <button nz-button [nzType]="'primary'" (click)="add()" ><i nz-icon type="plus"></i><span>添加公告</span></button>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <nz-tabset>
+                <nz-tab nzTitle="系统">
+                    系统板块 开发中...
+                </nz-tab>
+                <nz-tab nzTitle="公告">
+                    <nz-table
+                        #rowSelectionTable
+                        nzBordered
+                        nzShowPagination
+                        nzShowSizeChanger
+                        [nzFrontPagination]="false"
+                        [nzData]="notifications"
+                        [nzLoading]="loading"
+                        [nzTotal]="totalElements"
+                        [(nzPageIndex)]="page"
+                        [(nzPageSize)]="itemsPerPage"
+                        [nzShowTotal]="totalTemplate"
+                        (nzPageIndexChange)="loadAll()"
+                        (nzPageSizeChange)="initData(false)"
+                        (nzCurrentPageDataChange)="currentPageDataChange($event)"
+                    >
+                        <thead (nzSortChange)="sort($event)" nzSingleSort>
+                        <tr>
+                            <th nzWidth="50px" nzLeft="0px"
+                                nzShowCheckbox
+                                [(nzChecked)]="isAllDisplayDataChecked"
+                                [nzIndeterminate]="isIndeterminate"
+                                (nzCheckedChange)="checkAll($event)"
+                            ></th>
+                            <th nzWidth="175px" nzLeft="50px" nzShowSort nzSortKey="title">标题</th>
+                            <th nzWidth="900px" nzShowSort nzSortKey="content">内容</th>
+                            <th nzWidth="250px" nzShowSort nzSortKey="publishTime">发布时间</th>
+                            <th *ngIf="!(isChosen&&hasAuthWithAdmin)" nzWidth="250px" nzRight="0px">操作</th>
+                            <th *ngIf="isChosen&&hasAuthWithAdmin" nzWidth="250px" nzRight="0px">
+                                <button nz-button [nzType]="'primary'" (click)="batch_delete()" >批量删除</button>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let notification of notifications;let i=index">
+                            <td nzLeft="0px" nzShowCheckbox [(nzChecked)]="mapOfCheckedId[notification.id]" (nzCheckedChange)="refreshStatus()"></td>
+                            <td nzLeft="50px">{{notification.title}}</td>
+                            <td>{{notification.content}}</td>
+                            <td>{{notification.publishTime | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                            <td nzRight="0px">
+                                <button nz-button [nzType]="'primary'" (click)="edit(notification.id)">编辑</button>
+                                <button nz-button [nzType]="'primary'" (click)="delete(notification)">删除</button>
+                                <button nz-button [nzType]="'primary'" (click)="showDetail(notification.id)">查看</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                    <ng-template #totalTemplate let-total>
+                        总共 {{totalElements}} 条
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="通知">
+                    通知板块 开发中...
+                </nz-tab>
+            </nz-tabset>
+        </nz-card>
+    </div>
+</div>

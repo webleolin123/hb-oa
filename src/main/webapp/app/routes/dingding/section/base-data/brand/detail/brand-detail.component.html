@@ -1,0 +1,27 @@
+<div class="modal-header">
+    <div class="modal-title">品牌-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="brand">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">品牌id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{brand.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">品牌名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{brand.brandName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">是否代理</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="brand.isAgencyBrand == 1">否</span>
+            <span *ngIf="brand.isAgencyBrand == 2">是</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

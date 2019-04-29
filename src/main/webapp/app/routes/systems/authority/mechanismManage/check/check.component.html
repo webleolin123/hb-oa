@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <div class="modal-title">机构-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="data">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">机构名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.name}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">上级机构</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.parentName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">归属地</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.address}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">行政区域</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.administrative}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">联系方式</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.telephone}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

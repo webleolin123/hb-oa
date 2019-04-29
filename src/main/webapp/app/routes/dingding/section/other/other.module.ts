@@ -1,0 +1,150 @@
+import { NgModule } from '@angular/core';
+import {SharedModule} from '@shared';
+import {Routes, RouterModule} from '@angular/router';
+import {
+    OtherComponent,
+    SalaryComponent,
+    SalaryService,
+    SalaryDetailService,
+    SalaryDetailComponent,
+    SalaryTableComponent,
+    SalaryTableService,
+    AttendanceService,
+    AttendanceComponent,
+    AttendanceDetailComponent,
+    AttendanceDetailService,
+    AttendanceTableComponent,
+    AttendanceTableService,
+    ClfRegisterComponent,
+    ClfRegisterService,
+    ClfExportComponent,
+    ClfDetailComponent,
+    ClfEditComponent,
+    ClfBatchEditComponent,
+    AppraiseComponent,
+    AppraiseService,
+    AppraiseEditComponent,
+    AppraiseDetailComponent,
+    AppraiseBatchModifyComponent,
+    AppraiseFilterComponent,
+    AppraiseUploadComponent,
+    MeetingsComponent,
+    AttendanceTableTestComponent,
+    BindComponent,
+    BindService,
+} from "./";
+const routes: Routes = [
+    {
+        path: '',
+        component: OtherComponent,
+        children: [
+            {
+                path: 'salary',
+                component: SalaryComponent,
+                data: {titleI18n: '工资条'},
+            },
+            {
+                path: 'salary/salary-detail',
+                component: SalaryDetailComponent,
+                data: {titleI18n: '工资条-记录详情'},
+            },
+            {
+                path: 'salary/salary-table',
+                component: SalaryTableComponent,
+                data: {titleI18n: '工资条-工资明细'},
+            },
+            {
+                path: 'attendance',
+                component: AttendanceComponent,
+                data: {titleI18n: '考勤表'},
+            },
+            {
+                path: 'attendance/attendance-detail',
+                component: AttendanceDetailComponent,
+                data: {titleI18n: '考勤表-记录详情'},
+            },
+            {
+                path: 'attendance/attendance-table',
+                component: AttendanceTableComponent,
+                data: {titleI18n: '考勤表-考勤明细'},
+            },
+            {
+                path: 'attendance/attendance-table-test',
+                component: AttendanceTableTestComponent,
+                data: {titleI18n: '考勤表-考勤明细测试'},
+            },
+            {
+                path: 'clf-register',
+                component: ClfRegisterComponent,
+                data: {titleI18n: '售后登记管理'},
+            },
+            {
+                path: 'appraise',
+                component: AppraiseComponent,
+                data: {titleI18n: '负面评价采集'},
+            },
+            {
+                path: 'meetings',
+                component: MeetingsComponent,
+                data: {titleI18n: '会议管理'},
+            },
+        ],
+    },
+];
+const MODULE_COMPONENTS = [
+    OtherComponent,
+    SalaryComponent,
+    AttendanceComponent,
+    SalaryDetailComponent,
+    SalaryTableComponent,
+    AttendanceTableComponent,
+    AttendanceDetailComponent,
+    AttendanceTableTestComponent,
+    BindComponent,
+    ClfRegisterComponent,
+    ClfExportComponent,
+    ClfDetailComponent,
+    ClfEditComponent,
+    ClfBatchEditComponent,
+    AppraiseComponent,
+    AppraiseEditComponent,
+    AppraiseDetailComponent,
+    AppraiseBatchModifyComponent,
+    AppraiseFilterComponent,
+    AppraiseUploadComponent,
+    MeetingsComponent,
+];
+const COMPONENTS_NOROUNT=[
+    ClfExportComponent,
+    ClfDetailComponent,
+    ClfEditComponent,
+    AppraiseEditComponent,
+    ClfBatchEditComponent,
+    AppraiseDetailComponent,
+    AppraiseBatchModifyComponent,
+    AppraiseFilterComponent,
+    AppraiseUploadComponent,
+    BindComponent,
+];
+const COMPONENTS_SERVICES=[
+    SalaryService,
+    SalaryDetailService,
+    SalaryTableService,
+    AttendanceTableService,
+    AttendanceService,
+    AttendanceDetailService,
+    ClfRegisterService,
+    AppraiseService,
+    BindService,
+];
+@NgModule({
+  imports: [
+    SharedModule,
+    RouterModule.forChild(routes),
+  ],
+  declarations: [...MODULE_COMPONENTS],
+  entryComponents: [...COMPONENTS_NOROUNT],
+  providers:[...COMPONENTS_SERVICES],
+  exports:[],
+})
+export class OtherModule { }

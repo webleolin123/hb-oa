@@ -1,0 +1,87 @@
+@import '~@delon/theme/styles/default';
+
+:host {
+    .main {
+        display: flex;
+        padding-top: 12px;
+    }
+    .left {
+        max-width: 448px;
+        min-width: 310px;
+    }
+    .right {
+        flex: 1;
+        padding-left: 104px;
+        .avatar_title {
+            height: 22px;
+            font-size: @font-size-base;
+            color: @heading-color;
+            line-height: 22px;
+            margin-bottom: 8px;
+        }
+        .avatar {
+            width: 144px;
+            height: 144px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            img {
+                width: 100%;
+            }
+        }
+        .button_view {
+            width: 144px;
+            text-align: center;
+        }
+    }
+}
+
+@media screen and (max-width: @mobile-max) {
+    :host {
+        flex-direction: column-reverse;
+        .right {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 448px;
+            .avatar_title {
+                display: none;
+            }
+        }
+    }
+}
+//avatar
+:host ::ng-deep .avatar-uploader > .ant-upload, :host ::ng-deep .avatar {
+    width: 128px;
+    height: 128px;
+}
+:host ::ng-deep .ant-upload-select-picture-card i {
+    font-size: 32px;
+    color: #999;
+}
+:host ::ng-deep .ant-upload-select-picture-card .ant-upload-text {
+    margin-top: 8px;
+    color: #666;
+}
+:host ::ng-deep .avatar-uploader > .ant-upload{
+    height: 100%;
+}
+
+.file_Input{
+    position:absolute;
+    font-size:12px;
+    right:0;
+    top:0;
+    opacity:0;
+    margin-left: 0;
+    width: 100%;
+    height: 100%;
+}
+.previewImg{
+    width: 100px;
+    height: 100%;
+}
+.avatar_container{
+    display: inline-block;
+    margin-right: 10px;
+}

@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-机构</div>
+</div>
+<form  #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="data">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">机构名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="data.name" (ngModelChange)="nameChange(data.name)" name="name" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择上级机构</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input type="text" nz-input placeholder="请点选以下机构名" [(ngModel)]="data.parentName" name="parentName"(ngModelChange)="parentNameChange(data.parentName)" disabled="true" required/>
+        </nz-form-control>
+        <nz-form-control nzSpan="11" [nzOffset]="1">
+            <span style="color:#bfbfbf" >点击箭头可查看更多选择</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-control nzSpan="8" [nzOffset]="4">
+            <nz-tree
+                [nzData]="nodes"
+                (nzClick)="nzEvent($event)"
+                (nzExpandChange)="nzEvent($event)"
+              >
+            </nz-tree>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">归属地</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="data.address"(ngModelChange)="addressChange(data.address)" name="address" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+        <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">行政区域</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="data.administrative" name="administrative" (ngModelChange)="administrativeChange(data.administrative)"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">手机号码</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="data.telephone"(blur)="valiPhone(data.telephone)" (ngModelChange)="telephoneChange(data.telephone)"  name="telephone" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button #saveButton nz-button [disabled]="!valid&&((!f.form.valid) || (!f.form.dirty))" [nzType]="'primary'">保存</button>
+    </div>
+</form>

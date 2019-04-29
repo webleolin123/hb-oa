@@ -1,0 +1,20 @@
+<div class="main" style="min-height:876px;">
+    <div class="clearfix" style="width:345px;padding-left: 7px;padding-top: 7px;">
+        <nz-upload
+            nzListType="picture-card"
+            [(nzFileList)]="imgList"
+            [nzPreview]="handlePreview"
+            [nzRemove]="handleRemove"
+            style="width: 50%;"
+            [nzShowButton]="false"
+            [nzShowUploadList]="{showPreviewIcon: true, showRemoveIcon: false }"
+        >
+        </nz-upload>
+        <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
+            <ng-template #modalContent>
+                <img [src]="previewImage" [ngStyle]="{ 'width': '100%' }" />
+            </ng-template>
+        </nz-modal>
+    </div>
+</div>
+

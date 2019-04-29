@@ -1,0 +1,206 @@
+<page-header [title]="'权限设置'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉权限</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">权限设置</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <button nz-button [nzType]="'primary'" (click)="add(modules)" ><i nz-icon type="plus"></i><span>添加审批权限</span></button>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select
+                            style="width:200px;"
+                            nzDropdownMatchSelectWidth
+                            nzShowSearch
+                            nzPlaceHolder="选择模块 (支持模糊搜索)"
+                            [nzMaxTagCount]="1"
+                            [(ngModel)]="businessModuleId"
+                            (ngModelChange)="selectChange($event)"
+                            name="sBusinessModule"
+                            required>
+                            <nz-option *ngFor="let module of modules;let i=index;" [nzLabel]="module.businessName" [nzValue]="module.id">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <!--<button nz-button (click)="search()" [nzType]="'primary'">查询</button>-->
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false">
+                <nz-tabset
+                    style="height: 660px"
+                    [nzTabPosition]="'left'"
+                    [(nzSelectedIndex)]="selectedIndex"
+                >
+                    <nz-tab
+                        *ngFor="let module of modules"
+                        [nzTitle]="titleTemplate"
+                        (nzClick)="tabClick(module)"
+                    >
+                    <ng-template #titleTemplate>
+                        <div>{{ module.businessName }}</div>
+                    </ng-template>
+                        <ng-container>
+                            <nz-table
+                                #rolesFomalTable
+                                nzBordered
+                                [nzData]="rolesFomal"
+                                [nzLoading]="loading"
+                                [nzWidthConfig]="widthConfig"
+                                [nzShowTotal]="totalTemplate1"
+                                [nzScroll]="{x:'1450px',y: '222px'}"
+                                style="height: 320px;"
+                            >
+                                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                                <tr>
+                                    <th>正式ID</th>
+                                    <th>模块id</th>
+                                    <th>类型</th>
+                                    <th>范围</th>
+                                    <th>权限</th>
+                                    <th>人员</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr  *ngFor="let authority of rolesFomal">
+                                    <td>{{authority.id}}</td>
+                                    <td>{{authority.businessModuleId}}</td>
+                                    <td>
+                                        <span *ngIf="authority.approvePermissionValue == 1">普通</span>
+                                        <span *ngIf="authority.approvePermissionValue == 2 || authority.approvePermissionValue == 21">店铺</span>
+                                        <span *ngIf="authority.approvePermissionValue == 22">非店铺</span>
+                                        <span *ngIf="authority.approvePermissionValue == 3">上下架专属</span>
+                                        <span *ngIf="authority.approvePermissionValue == 31">上架</span>
+                                        <span *ngIf="authority.approvePermissionValue == 32">临时下架</span>
+                                        <span *ngIf="authority.approvePermissionValue == 33">永久下架</span>
+                                        <span *ngIf="authority.approvePermissionValue == 4">作图</span>
+                                        <span *ngIf="authority.approvePermissionValue == 41">日常作图</span>
+                                        <span *ngIf="authority.approvePermissionValue == 42">加急作图</span>
+                                        <span *ngIf="authority.approvePermissionValue == 43">外包装</span>
+                                        <span *ngIf="authority.approvePermissionValue == 44">AI设计</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="authority.brandRange == 1">全部品牌</span>
+                                        <span *ngIf="authority.brandRange == 2">代理品牌</span>
+                                        <span *ngIf="authority.brandRange == 3">自有品牌</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="authority.permissionType == 1">添加</span>
+                                        <span *ngIf="authority.permissionType == 2">删除</span>
+                                        <span *ngIf="authority.permissionType == 3">修改</span>
+                                        <span *ngIf="authority.permissionType == 4">查询</span>
+                                        <span *ngIf="authority.permissionType == 5">一级审批</span>
+                                        <span *ngIf="authority.permissionType == 6">二级审批</span>
+                                        <span *ngIf="authority.permissionType == 7">抄送</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="authority.dingPersonDTO!=null">{{authority.dingPersonDTO.dingName}}</span>
+                                        <span *ngIf="authority.dingPersonDTO==null">{{''}}</span>
+                                    </td>
+                                    <td>
+                                        <button nz-button [nzType]="'primary'" (click)="edit(authority,modules)">编辑</button>
+                                        <button nz-button [nzType]="'primary'" (click)="delete(authority)">删除</button>
+                                        <button nz-button [nzType]="'primary'" (click)="check(authority,module.businessName)">查看</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </nz-table>
+                            <ng-template #totalTemplate1 let-total>
+                                总共 {{rolesFomal.length}} 条
+                            </ng-template>
+                        </ng-container>
+                        <ng-container>
+                            <nz-table
+                                #rolesTestTable
+                                nzBordered
+                                [nzData]="rolesTest"
+                                [nzLoading]="loading"
+                                [nzShowTotal]="totalTemplate2"
+                                [nzWidthConfig]="widthConfig"
+                                [nzScroll]="{x:'1450px',y: '222px'}"
+                                style="height: 320px;"
+                            >
+                                <thead (nzSortChange)="sort($event)" nzSingleSort>
+                                <tr>
+                                    <th>测试ID</th>
+                                    <th>模块id</th>
+                                    <th>类型</th>
+                                    <th>范围</th>
+                                    <th>权限</th>
+                                    <th>人员</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr  *ngFor="let authority of rolesTest">
+                                    <td>{{authority.id}}</td>
+                                    <td>{{authority.businessModuleId}}</td>
+                                    <td>
+                                        <span *ngIf="authority.approvePermissionValue == 1">普通</span>
+                                        <span *ngIf="authority.approvePermissionValue == 2 || authority.approvePermissionValue == 21">店铺</span>
+                                        <span *ngIf="authority.approvePermissionValue == 22">非店铺</span>
+                                        <span *ngIf="authority.approvePermissionValue == 3">上下架专属</span>
+                                        <span *ngIf="authority.approvePermissionValue == 31">上架</span>
+                                        <span *ngIf="authority.approvePermissionValue == 32">临时下架</span>
+                                        <span *ngIf="authority.approvePermissionValue == 33">永久下架</span>
+                                        <span *ngIf="authority.approvePermissionValue == 4">作图</span>
+                                        <span *ngIf="authority.approvePermissionValue == 41">日常作图</span>
+                                        <span *ngIf="authority.approvePermissionValue == 42">加急作图</span>
+                                        <span *ngIf="authority.approvePermissionValue == 43">外包装</span>
+                                        <span *ngIf="authority.approvePermissionValue == 44">AI设计</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="authority.brandRange == 1">全部品牌</span>
+                                        <span *ngIf="authority.brandRange == 2">代理品牌</span>
+                                        <span *ngIf="authority.brandRange == 3">自有品牌</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="authority.permissionType == 1">添加</span>
+                                        <span *ngIf="authority.permissionType == 2">删除</span>
+                                        <span *ngIf="authority.permissionType == 3">修改</span>
+                                        <span *ngIf="authority.permissionType == 4">查询</span>
+                                        <span *ngIf="authority.permissionType == 5">一级审批</span>
+                                        <span *ngIf="authority.permissionType == 6">二级审批</span>
+                                        <span *ngIf="authority.permissionType == 7">抄送</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="authority.dingPersonDTO!=null">{{authority.dingPersonDTO.dingName}}</span>
+                                        <span *ngIf="authority.dingPersonDTO==null">{{''}}</span>
+                                    </td>
+                                    <td>
+                                        <button nz-button [nzType]="'primary'" (click)="edit(authority,modules)">编辑</button>
+                                        <button nz-button [nzType]="'primary'" (click)="delete(authority)">删除</button>
+                                        <button nz-button [nzType]="'primary'" (click)="check(authority,module.businessName)">查看</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </nz-table>
+                            <ng-template #totalTemplate2 let-total>
+                                总共 {{rolesTest.length}} 条
+                            </ng-template>
+                        </ng-container>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

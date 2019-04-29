@@ -1,0 +1,190 @@
+<page-header [title]="'首页明细'"
+    [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">主导航</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a routerLink="/dingding/home">首页</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">首页明细</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+
+        <nz-card [nzBordered]="false" [nzTitle]="moreTitle">
+            <ng-template #moreTitle>
+                <h4>{{title}}</h4>
+            </ng-template>
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="searchType" name="business" [nzAllowClear]="false" *ngIf="titleEN=='business'">
+                            <nz-option nzValue="业务名称" nzLabel="业务名称"></nz-option>
+                        </nz-select>
+                        <nz-select [(ngModel)]="searchType" name="goods" [nzAllowClear]="false" *ngIf="titleEN=='goods'">
+                            <nz-option nzValue="商品名称" nzLabel="商品名称" ></nz-option>
+                        </nz-select>
+                        <nz-select [(ngModel)]="searchType" name="person" [nzAllowClear]="false" *ngIf="titleEN=='person'">
+                            <nz-option nzValue="申请人" nzLabel="申请人" ></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem" name="searchItem" placeholder="关键字,模糊查询">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search()" [nzType]="'primary'">搜索</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;"  *ngIf="titleEN=='business'">
+                <nz-table
+                    #ajaxTable
+                    nzBordered
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="detailList"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="initData(false)"
+                    [nzShowPagination]="true">
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzShowSort nzSortKey="moduleName">业务名称</th>
+                        <th nzShowSort nzSortKey="totalNumber">申请总数</th>
+                        <th nzShowSort nzSortKey="toDoNumber">待办申请</th>
+                        <th nzShowSort nzSortKey="adoptedNumber">通过申请</th>
+                        <th nzShowSort nzSortKey="totalApproveFee">总费用</th>
+                        <th nzShowSort nzSortKey="adoptedApproveFee">通过费用</th>
+                        <th nzShowSort nzSortKey="usedApproveFee">实际费用</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let business of detailList;">
+                        <td>{{business.moduleName}}</td>
+                        <td>{{business.totalNumber}}</td>
+                        <td>{{business.toDoNumber}}</td>
+                        <td>{{business.adoptedNumber}}</td>
+                        <td>¥{{business.totalApproveFee}}</td>
+                        <td>¥{{business.adoptedApproveFee}}</td>
+                        <td>¥{{business.usedApproveFee}}</td>
+                        <td>
+                            <button nz-button nzType="primary" (click)="toTrend(business.moduleId,titleEN,business.moduleName)">趋势</button>&nbsp;&nbsp;
+                            <button nz-button nzType="primary" (click)="toDetail(business.moduleId,titleEN,business.moduleName)">详情</button>
+                            <!--<button class="myBtn-dark" (click)="toTrend(business.moduleId,titleEN,business.moduleName)">趋势</button>-->
+                            <!--<button class="myBtn-dark"(click)="toDetail(business.moduleId,titleEN,business.moduleName)">详情</button>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;"  *ngIf="titleEN=='goods'">
+                <nz-table
+                    #ajaxTable
+                    nzBordered
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="detailList"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="loadAll(true)"
+                    [nzShowPagination]="true">
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzShowSort nzSortKey="goodName">商品名称</th>
+                        <th nzShowSort nzSortKey="totalNumber">申请总数</th>
+                        <th nzShowSort nzSortKey="adoptedNumber">通过申请</th>
+                        <th nzShowSort nzSortKey="totalApproveFee">总费用</th>
+                        <th nzShowSort nzSortKey="adoptedApproveFee">通过费用</th>
+                        <th nzShowSort nzSortKey="usedApproveFee">实际费用</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let goods of detailList;">
+                        <td>{{goods.goodName}}</td>
+                        <td>{{goods.totalNumber}}</td>
+                        <td>{{goods.adoptedNumber}}</td>
+                        <td>¥{{goods.totalApproveFee}}</td>
+                        <td>¥{{goods.adoptedApproveFee}}</td>
+                        <td>¥{{goods.usedApproveFee}}</td>
+                        <td>
+                            <button nz-button nzType="primary" (click)="toTrend(goods.goodId,titleEN,goods.goodName)">趋势</button>&nbsp;&nbsp;
+                            <button nz-button nzType="primary" (click)="toDetail(goods.goodId,titleEN,goods.goodName)">详情</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;"  *ngIf="titleEN=='person'">
+                <nz-table
+                    #ajaxTable
+                    nzBordered
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="detailList"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="loadAll(true)"
+                    [nzShowPagination]="true">
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzShowSort nzSortKey="applicantName">申请人</th>
+                        <th nzShowSort nzSortKey="totalNumber">申请总数</th>
+                        <th nzShowSort nzSortKey="adoptedNumber">通过申请</th>
+                        <th nzShowSort nzSortKey="totalApproveFee">总费用</th>
+                        <th nzShowSort nzSortKey="adoptedApproveFee">通过费用</th>
+                        <th nzShowSort nzSortKey="usedApproveFee">实际费用</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let person of detailList;">
+                        <td>{{person.applicantName}}</td>
+                        <td>{{person.totalNumber}}</td>
+                        <td>{{person.adoptedNumber}}</td>
+                        <td>¥{{person.totalApproveFee}}</td>
+                        <td>¥{{person.adoptedApproveFee}}</td>
+                        <td>¥{{person.usedApproveFee}}</td>
+                        <td>
+                            <button nz-button nzType="primary" (click)="toTrend(person.applicantId,titleEN,person.applicantName)">趋势</button>&nbsp;&nbsp;
+                            <button nz-button nzType="primary" (click)="toDetail(person.applicantId,titleEN,person.applicantName)">详情</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

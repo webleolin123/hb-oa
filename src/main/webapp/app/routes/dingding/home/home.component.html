@@ -1,0 +1,371 @@
+<page-header [title]="'首页'"
+     [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">主导航</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">首页</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false" [nzTitle]="totalDataTitle">
+            <ng-template #totalDataTitle>
+                总数据概况
+            </ng-template>
+            <div nz-row nzGutter="16">
+                <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md" *ngFor="let totalApproval of testArr;">
+                    <img src="{{totalApproval.icon_bg}}" class="totalApproval_icon_bg">
+                    <div class="totalApproval_text_container">
+                        <div class="icon">
+                            <img src="{{totalApproval.icon}}" class="title_icon">
+                            <span class="title_text">{{totalApproval.itemName}}</span>
+                        </div>
+                        <ng-container  *ngFor="let key of  objectKeys(totalApproval);">
+                            <div *ngIf="totalApproval.itemName=='总费用概况'">
+                                <div class="totalApproval_detail_container"
+                                     *ngIf="key!='itemName'&& key!='icon'&&key!='icon_bg'">
+                                    <span class="text_key">{{key+' : '}}</span>
+                                    <span>{{'¥'+totalApproval[key]}}</span>
+                                </div>
+                            </div>
+                            <div *ngIf="totalApproval.itemName!='总费用概况'">
+                                <div class="totalApproval_detail_container"
+                                     *ngIf="key!='itemName'&& key!='icon'&&key!='icon_bg'">
+                                    <span class="text_key">{{key+' : '}}</span>
+                                    <span>{{totalApproval[key]}}</span>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false" [nzTitle]="monthlyReportTitle">
+            <ng-template #monthlyReportTitle>
+                月报概况
+                <nz-month-picker [nzFormat]="monthFormat"
+                                 nzSize="large"
+                                 [nzStyle]="{
+                                  margin: '0 8px 12px 0',
+                                  border:'1px solid #40dc7e',
+                                  fontSize:'14px',
+                                  color:'#2a2a2a',
+                                  fontFamily:'Microsoft YaHei',
+                                  borderRadius:'4px'
+                               }"
+                                 [(ngModel)]="date" (ngModelChange)="monthChange($event)" nzPlaceHolder="请选择查询月份"></nz-month-picker>
+            </ng-template>
+            <div nz-row nzGutter="16">
+                <div nz-col nzXs="24" nzMd="18" class="mb-md">
+                    <nz-table [nzData]="monthlyReportList" [nzShowPagination]="false" nzBordered [nzWidthConfig]="widthConfig">
+                        <tbody>
+                        <tr *ngFor="let monthlyReport of monthlyReportList; index as i;">
+                            <td>
+                                <div class="monthlyReport_itemName">
+                                    {{ monthlyReport.itemName }}
+                                </div>
+                            </td>
+                            <td class="monthlyReport_content_contianer"
+                                *ngIf="monthlyReport.itemName=='总费用概况'">
+                                <ng-container  *ngFor="let key of  objectKeys(monthlyReport);">
+                                    <div class="monthlyReport_content" *ngIf="key!='itemName'">
+                                        <div class="title_key">{{key}}</div>
+                                        <div class="title_value"> ¥{{monthlyReport[key]| customPipe:1}}</div>
+                                        <div>
+                                            <span class="compared_value">较上月 </span>
+                                            <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )>0">
+                                                        <span style="color:#40dc7e">{{(monthlyReport[key]| customPipe:2)}}</span>
+                                                    </span>
+                                            <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )<0">
+                                                        <span style="color:#ff2525">{{(monthlyReport[key]| customPipe:2)}}</span>
+                                                    </span>
+                                            <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )==0">
+                                                        <span style="color:#9b92ff">{{(monthlyReport[key]| customPipe:2)}}</span>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </td>
+                            <td  class="monthlyReport_content_contianer"
+                                 *ngIf="monthlyReport.itemName!=='总费用概况'">
+                                <ng-container  *ngFor="let key of  objectKeys(monthlyReport);">
+                                    <div class="monthlyReport_content" *ngIf="key!='itemName'">
+                                        <div class="title_key">{{key}}</div>
+                                        <div class="title_value" *ngIf="key=='已通过费用'">¥{{monthlyReport[key] | customPipe:1}}</div>
+                                        <div class="title_value" *ngIf="key!='已通过费用'">{{monthlyReport[key]| customPipe:1}}</div>
+                                        <div>
+                                            <span class="compared_value">较上月 </span>
+                                            <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )>0">
+                                                    <span style="color:#40dc7e">{{monthlyReport[key]| customPipe:2}}</span>
+                                                </span>
+                                            <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )<0">
+                                                    <span style="color:#ff2525">{{monthlyReport[key]| customPipe:2}}</span>
+                                                </span>
+                                            <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )==0">
+                                                    <span style="color:#9b92ff">{{monthlyReport[key]| customPipe:2}}</span>
+                                                </span>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+                <div nz-col nzXs="24" nzMd="6" class="mb-md">
+                    <nz-table id="passRate" [nzShowPagination]="false" nzBordered>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div nz-row>
+                                        <div nz-col nzSpan="24">通过概率</div>
+                                    </div>
+                                    <div nz-row>
+                                        <div nz-col nzSpan="12">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="150" width="130" >
+                                                <circle cx="65" cy="85" r="50" fill="none" stroke="#ebeff5" stroke-width="10" stroke-linecap="round"/>
+                                                <circle #svg1 cx="65" cy="85" r="50" fill="none" stroke="#40dc7e" stroke-width="10" stroke-dasharray="0,10000"/>
+                                                <text fill="#40dc7e" text-anchor="middle" x="65" y="94" style="font-weight: bold;font-size: 20px;">
+                                                    {{passCountPercent | percent:'2.2' }}
+                                                </text>
+                                            </svg>
+                                        </div>
+                                        <div nz-col nzSpan="12" class="passRate_right_container">
+                                            <div>{{nowSelectedMonth}}月已通过申请数</div>
+                                            <div>{{passCount}}</div>
+                                            <div>
+                                                <span>{{nowSelectedMonth}}月申请总数</span>
+                                                <span>{{total_passCount}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div nz-row>
+                                        <div nz-col nzSpan="12">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="150" width="130" >
+                                                <circle cx="65" cy="85" r="50" fill="none" stroke="#ebeff5" stroke-width="10" stroke-linecap="round"/>
+                                                <circle #svg2 cx="65" cy="85" r="50" fill="none" stroke="#9b92ff" stroke-width="10" stroke-dasharray="0,10000"/>
+                                                <text fill="#9b92ff" text-anchor="middle" x="65" y="94" style="font-weight: bold;font-size: 20px;">
+                                                    {{passFeePercent | percent:'2.2' }}
+                                                </text>
+                                            </svg>
+                                        </div>
+                                        <div nz-col nzSpan="12" class="passRate_right_container">
+                                            <div>{{nowSelectedMonth}}月已通过申请费用</div>
+                                            <div>¥{{passFee}}</div>
+                                            <div>
+                                                <span>{{nowSelectedMonth}}月总申请费用</span>
+                                                <span>¥{{total_passFee}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                    </nz-table>
+                </div>
+            </div>
+            <div nz-row nzGutter="16">
+                <!--//年月切换 下载数据-->
+                <div nz-col nzSpan="24" class="monthlyReport_trend_head">
+                    <div>
+                        <span>月报趋势</span>
+                    </div>
+                    <div>
+                        <!--<button style="width: 50px;height: 30px;border: 1px solid #dee2e6;border-radius: 4px;background: #fff;color: #a4abb3">月</button>-->
+                        <!--<button style="width: 50px;height: 30px;border: 1px solid #40dc7e;border-radius: 4px;background: #40dc7e;color: #fff;border: 1px solid #40dc7e">年</button>-->
+                        <button class="load_btn" (click)="export()">下载数据</button>
+                    </div>
+                </div>
+                <!--//趋势指标 选择控件-->
+                <!--<div class="col-lg-12">-->
+                <!--<table class="table table-bordered col-lg-12">-->
+                <!--<tbody>-->
+                <!--<tr class='row' *ngFor="let monthlyReport of monthlyReportList;" style="min-height:50px;padding-left: 15px;padding-right: 15px;">-->
+                <!--<td class="col-lg-2" style="padding: 0">-->
+                <!--<div style="background: #f8f8f8;font-weight: bold;display: flex;justify-content: center;align-items: center;height:100%;width: 100%;font-size: 16px;font-family: 'Microsoft YaHei';color: #2a2a2a">-->
+                <!--{{monthlyReport.itemName}}-->
+                <!--</div>-->
+                <!--</td>-->
+                <!--<td class="col-lg-10" style="display: flex;flex-direction: row;justify-content: flex-start;">-->
+                <!--<ng-container  *ngFor="let key of  objectKeys(monthlyReport);">-->
+                <!--<div class="col-lg-2" *ngIf="key!='itemName'" style="display: flex;flex-direction:column;justify-content: center;align-items: center;">-->
+                <!--<div>-->
+                <!--<input type="checkbox">-->
+                <!--<span style="font-family: 'Microsoft YaHei';color: #2a2a2a;font-size: 14px;">{{key}}</span>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</ng-container>-->
+                <!--</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+                <!--</table>-->
+                <!--</div>-->
+                <!--//年，月,日报趋势图-->
+                <div nz-col nzSpan="24">
+                    <custom-chart [parentData]="parentData"></custom-chart>
+                </div>
+            </div>
+        </nz-card>
+    </div>
+</div>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="16">
+        <nz-card class="business_module" [nzBordered]="false" [nzTitle]="businessAnalysis">
+            <ng-template #businessAnalysis>
+                业务分析
+                <a class="more_btn" [title]="title" (click)="showDetail('business')">了解更多</a>
+            </ng-template>
+            <div nz-row>
+                <div nz-col nzSpan="12">
+                    <div class="module_table_title">{{nowSelectedMonth}}月业务申请数TOP5</div>
+                    <nz-table [nzShowPagination]="false"  nzBordered [nzData]="businessApplicationNumberRanking">
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>业务名称</th>
+                                <th>申请数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr *ngFor="let tmp of businessApplicationNumberRanking;let i=index">
+                             <ng-container *ngIf="i<5">
+                                <td *ngIf="i==0">
+                                    <span style="background: #ff2525;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i==1">
+                                    <span style="background: #ffa100;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i==2">
+                                    <span style="background: #4ca6ff;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i>2">
+                                    <span style="background: #dfe3ea;">{{i+1}}</span>
+                                </td>
+                                <td>{{tmp.moduleName}}</td>
+                                <td>{{tmp.totalNumber}}</td>
+                            </ng-container>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+                <div nz-col nzSpan="12">
+                    <div class="module_table_title">{{nowSelectedMonth}}月业务申请费用TOP5</div>
+                    <nz-table [nzShowPagination]="false" nzBordered [nzData]="businessApplicationFeeRanking">
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>业务名称</th>
+                                <th>总费用</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                               <tr *ngFor="let tmp of businessApplicationFeeRanking;let i=index">
+                            <ng-container *ngIf="i<5">
+                                <td *ngIf="i==0">
+                                    <span style="background: #ff2525;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i==1">
+                                    <span style="background: #ffa100;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i==2">
+                                    <span style="background: #4ca6ff;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i>2">
+                                    <span style="background: #dfe3ea;">{{i+1}}</span>
+                                </td>
+                                <td>{{tmp.moduleName}}</td>
+                                <td>{{tmp.totalApproveFee}}</td>
+                            </ng-container>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="8">
+        <nz-card class="person_module" [nzBordered]="false" [nzTitle]="personAnalysis">
+            <ng-template #personAnalysis>
+                人员分析
+                <a class="more_btn"  [title]="title" (click)="showDetail('person')">了解更多</a>
+            </ng-template>
+            <div nz-row>
+                <div nz-col nzSpan="24">
+                    <div class="module_table_title">{{nowSelectedMonth}}月人员申请数TOP5</div>
+                    <nz-table [nzShowPagination]="false"   nzBordered [nzData]="numberOfPersonnelApplications">
+                        <thead>
+                        <tr>
+                            <th>排名</th>
+                            <th>申请者</th>
+                            <th>部门</th>
+                            <th>申请数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let tmp of numberOfPersonnelApplications;let i=index">
+                            <ng-container *ngIf="i<5">
+                                <td *ngIf="i==0">
+                                    <span style="background: #ff2525;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i==1">
+                                    <span style="background: #ffa100;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i==2">
+                                    <span style="background: #4ca6ff;">{{i+1}}</span>
+                                </td>
+                                <td *ngIf="i>2">
+                                    <span style="background: #dfe3ea;">{{i+1}}</span>
+                                </td>
+                                <td>{{tmp.applicantName}}</td>
+                                <td>{{tmp.applicantDepartment}}</td>
+                                <td>{{tmp.totalNumber}}</td>
+                            </ng-container>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </nz-card>
+    </div>
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card class="goods_module" [nzBordered]="false" [nzTitle]="goodsAnalysis">
+            <ng-template #goodsAnalysis>
+                商品分析
+                <a class="more_btn"  [title]="title" (click)="showDetail('goods')">了解更多</a>
+            </ng-template>
+            <div nz-row>
+                <div nz-col nzSpan="24">
+                    <div class="module_table_title">{{nowSelectedMonth}}月人员申请数TOP5</div>
+                    <nz-table [nzShowPagination]="false"  nzBordered [nzData]="numberOfPersonnelApplications">
+                        <thead>
+                        <tr>
+                            <th>申请排名</th>
+                            <th>商品名称</th>
+                            <th>申请总数</th>
+                            <th>总费用</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let tmp of numberOfProductApplications;let i=index" class="goods_tr">
+                            <ng-container *ngIf="i<5">
+                                <td>{{i+1}}</td>
+                                <td>{{tmp.goodName}}</td>
+                                <td>{{tmp.totalNumber}}</td>
+                                <td>¥{{tmp.totalApproveFee}}</td>
+                            </ng-container>
+                        </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+            </div>
+        </nz-card>
+    </div>
+</div>

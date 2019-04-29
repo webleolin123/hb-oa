@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <div class="modal-title">商品-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="good">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品id</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{good.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品名称</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{good.goodName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">所属店铺</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{good.shopName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">所属品牌</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{good.brandName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品前缀</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{good.preLink}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品价格</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{good.price}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

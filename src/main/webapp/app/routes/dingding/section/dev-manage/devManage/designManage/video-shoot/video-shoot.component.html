@@ -1,0 +1,82 @@
+<page-header [title]="'视频拍摄申请'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">开发管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">设计管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">视频拍摄申请</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <button nz-button [nzType]="'primary'" (click)="add()" ><i nz-icon type="plus"></i><span>添加</span></button>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem" name="searchItem" placeholder="请输入关键字查询" id="searchItem">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search()" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;">
+                <p>开发中...</p>
+                <!--<nz-table-->
+                <!--#ajaxTable-->
+                <!--nzBordered-->
+                <!--nzShowSizeChanger-->
+                <!--[nzFrontPagination]="false"-->
+                <!--[nzData]="brands"-->
+                <!--[nzLoading]="loading"-->
+                <!--[nzTotal]="totalElements"-->
+                <!--[(nzPageIndex)]="page"-->
+                <!--[(nzPageSize)]="itemsPerPage"-->
+                <!--[nzShowTotal]="totalTemplate"-->
+                <!--(nzPageIndexChange)="loadAll()"-->
+                <!--(nzPageSizeChange)="initData(false)"-->
+                <!--[nzShowPagination]="true">-->
+                <!--<thead (nzSortChange)="sort($event)" nzSingleSort>-->
+                <!--<tr>-->
+                <!--<th nzShowSort nzSortKey="id">id</th>-->
+                <!--<th nzShowSort nzSortKey="brandName">品牌名称</th>-->
+                <!--<th nzShowSort nzSortKey="status">状态</th>-->
+                <!--<th>操作</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tbody>-->
+                <!--<tr *ngFor="let brand of brands">-->
+                <!--<td>{{brand.id}}</td>-->
+                <!--<td>{{brand.brandName}}</td>-->
+                <!--<td>-->
+                <!--<span *ngIf="brand.status == 1">正常</span>-->
+                <!--<span *ngIf="brand.status == 0">删除</span>-->
+                <!--</td>-->
+                <!--<td>-->
+                <!--<button nz-button [nzType]="'primary'" (click)="edit(brand.id)">编辑</button>-->
+                <!--<button nz-button [nzType]="'primary'" (click)="delete(brand)">删除</button>-->
+                <!--<button nz-button [nzType]="'primary'" (click)="check(brand.id)">查看</button>-->
+                <!--</td>-->
+                <!--</tr>-->
+                <!--</tbody>-->
+                <!--</nz-table>-->
+                <!--<ng-template #totalTemplate let-total>-->
+                <!--总共 {{totalElements}} 条-->
+                <!--</ng-template>-->
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+    <div class="modal-header" *ngIf="parentData.title">
+        <h4 class="modal-title">
+            {{parentData.title}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div  class="inputContainer">
+            <div class="row" style="margin-bottom: 20px;">
+                <span *ngIf="parentData.isTrend" style="padding-bottom: 15px;">{{parentData.chartName}}</span>
+            </div>
+            <select type="text" [(ngModel)]="saveYearValue" *ngIf="selectValue==0&&parentData.onlyYear" (change)="selectYearChange($event.target.value)" class="inputBorder">
+                <option *ngFor="let year of yearArr" [selected]="saveYearValue==year">{{year}}</option>
+            </select>
+            <select type="text" [(ngModel)]="saveMonthValue" *ngIf="selectValue==1&&parentData.onlyMonth" (change)="selectMonthChange($event.target.value)" class="inputBorder">
+                <option *ngFor="let month of monthArr"[selected]="saveMonthValue==month">{{month}}</option>
+            </select>
+            <span *ngIf="selectValue==2 && parentData.onlyDay">
+                <input type="date" [(ngModel)]="day_start" (change)="selectDayStartChange($event.target.value)" class="inputBorder">至
+                <input type="date" [(ngModel)]="day_end" (change)="selectDayEndChange($event.target.value)" class="inputBorder">
+             </span>
+            <select (change)="selectChange($event.target.value)" class="inputBorder">
+                <option value="2" selected *ngIf='parentData.onlyDay'>日</option>
+                <option value="1" *ngIf='parentData.onlyMonth'>月</option>
+                <option value="0" *ngIf='parentData.onlyYear'>年</option>
+            </select>
+        </div>
+        <div echarts [options]="options" autoResize="true" theme="macarons" class="demo-chart" (chartInit)="onChartInit($event)"></div>
+    </div>
+

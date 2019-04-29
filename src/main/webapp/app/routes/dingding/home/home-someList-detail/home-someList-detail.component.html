@@ -1,0 +1,178 @@
+
+  <div class="modal-header">
+    <h4 class="modal-title">{{detailTitle}}提交详情</h4>
+  </div>
+  <div class="modal-body">
+    <div style="margin-left: 10px;margin-bottom: 20px;">
+      <span *ngIf="!isBusiness">{{detailName}}</span>
+    </div>
+      <nz-card [nzBordered]="false" *ngIf="detailType=='business'">
+          <nz-table
+              #ajaxTable
+              nzBordered
+              nzShowSizeChanger
+              [nzFrontPagination]="false"
+              [nzData]="detailList"
+              [nzLoading]="loading"
+              [nzTotal]="totalElements"
+              [(nzPageIndex)]="page"
+              [(nzPageSize)]="itemsPerPage"
+              [nzPageSizeOptions]="itemsPerPageArr"
+              [nzShowTotal]="totalTemplate"
+              (nzPageIndexChange)="loadAll()"
+              (nzPageSizeChange)="loadAll(true)"
+              [nzShowPagination]="true"
+              [nzScroll]="{ y: '240px' }"
+          >
+              <thead (nzSortChange)="sort($event)" nzSingleSort>
+              <tr>
+                  <th nzShowSort nzSortKey="applicantName" nzWidth="711px">申请人</th>
+                  <th nzShowSort nzSortKey="totalNumber" nzWidth="435px">提交商品数</th>
+                  <th nzShowSort nzSortKey="totalApproveFee" nzWidth="250px">申请费用</th>
+              </tr>
+              </thead>
+              <tbody>
+              <ng-container *ngFor="let business of detailList;let i=index;">
+                  <tr>
+                      <td (click)="showDetail(business)">
+                        <span style="display: inline-block;width: 160px;padding-left: 25px;text-align: left;">
+                            <img src='../../../../../assets/images/home/suo.png' *ngIf="!business.isShow">
+                            <img src='../../../../../assets/images/home/shen.png' *ngIf="business.isShow">
+                            <span>{{business.name}}</span>
+                        </span>
+                      </td>
+                      <td>{{business.number}}</td>
+                      <td>¥{{business.money}}</td>
+                  </tr>
+                  <ng-container *ngFor="let list of business.list">
+                      <tr *ngIf="business.list&&business.isShow">
+                          <td colspan="2">
+                              <span>{{list.goodName}}</span>
+                              <span>({{list.totalNumber}})</span>
+                          </td>
+                          <td>¥{{list.totalApproveFee}}</td>
+                      </tr>
+                      <!--<tr *ngIf="business.isShow&&!business.list">-->
+                      <!--<td colspan="3">暂无数据</td>-->
+                      <!--</tr>-->
+                  </ng-container>
+              </ng-container>
+              </tbody>
+          </nz-table>
+          <ng-template #totalTemplate let-total>
+              总共 {{totalElements}} 条
+          </ng-template>
+      </nz-card>
+      <nz-card  *ngIf="detailType=='goods'">
+          <nz-table
+              #ajaxTable
+              nzBordered
+              nzShowSizeChanger
+              [nzFrontPagination]="false"
+              [nzData]="detailList"
+              [nzLoading]="loading"
+              [nzTotal]="totalElements"
+              [(nzPageIndex)]="page"
+              [(nzPageSize)]="itemsPerPage"
+              [nzShowTotal]="totalTemplate"
+              (nzPageIndexChange)="loadAll()"
+              (nzPageSizeChange)="loadAll(true)"
+              [nzShowPagination]="true"
+              [nzScroll]="{ y: '240px' }"
+          >
+              <thead (nzSortChange)="sort($event)" nzSingleSort>
+              <tr>
+                  <th nzShowSort nzSortKey="applicantName" nzWidth="711px">申请人</th>
+                  <th nzShowSort nzSortKey="totalNumber" nzWidth="435px">申请业务数</th>
+                  <th nzShowSort nzSortKey="totalApproveFee" nzWidth="250px">申请费用</th>
+              </tr>
+              </thead>
+              <tbody>
+              <ng-container *ngFor="let goods of detailList;let i=index;">
+                  <tr>
+                      <td (click)="showDetail(goods)">
+                        <span style="display: inline-block;width: 160px;padding-left: 25px;text-align: left;">
+                            <img src='../../../../../assets/images/home/suo.png' *ngIf="!goods.isShow">
+                            <img src='../../../../../assets/images/home/shen.png' *ngIf="goods.isShow">
+                            <span>{{goods.name}}</span>
+                        </span>
+                      </td>
+                      <td>{{goods.number}}</td>
+                      <td>¥{{goods.money}}</td>
+                  </tr>
+                  <ng-container *ngFor="let list of goods.list">
+                      <tr *ngIf="goods.list&&goods.isShow">
+                          <td colspan="2">
+                              <span>{{list.goodName}}</span>
+                              <span>({{list.totalNumber}})</span>
+                          </td>
+                          <td>¥{{list.totalApproveFee}}</td>
+                      </tr>
+                      <!--<tr *ngIf="business.isShow&&!business.list">-->
+                      <!--<td colspan="3">暂无数据</td>-->
+                      <!--</tr>-->
+                  </ng-container>
+              </ng-container>
+              </tbody>
+          </nz-table>
+          <ng-template #totalTemplate let-total>
+              总共 {{totalElements}} 条
+          </ng-template>
+      </nz-card>
+      <nz-card *ngIf="detailType=='person'">
+          <nz-table
+              #ajaxTable
+              nzBordered
+              nzShowSizeChanger
+              [nzFrontPagination]="false"
+              [nzData]="detailList"
+              [nzLoading]="loading"
+              [nzTotal]="totalElements"
+              [(nzPageIndex)]="page"
+              [(nzPageSize)]="itemsPerPage"
+              [nzShowTotal]="totalTemplate"
+              (nzPageIndexChange)="loadAll()"
+              (nzPageSizeChange)="loadAll(true)"
+              [nzShowPagination]="true"
+              [nzScroll]="{ y: '240px' }"
+          >
+              <thead (nzSortChange)="sort($event)" nzSingleSort>
+              <tr>
+                  <th nzShowSort nzSortKey="moduleName" nzWidth="711px">业务名称</th>
+                  <th nzShowSort nzSortKey="totalNumber" nzWidth="435px">提交申请数</th>
+                  <th nzShowSort nzSortKey="totalApproveFee" nzWidth="250px">申请费用</th>
+              </tr>
+              </thead>
+              <tbody>
+              <ng-container *ngFor="let person of detailList;let i=index;">
+                  <tr>
+                      <td (click)="showDetail(person)">
+                        <span style="display: inline-block;width: 160px;padding-left: 25px;text-align: left;">
+                            <img src='../../../../../assets/images/home/suo.png' *ngIf="!person.isShow">
+                            <img src='../../../../../assets/images/home/shen.png' *ngIf="person.isShow">
+                            <span>{{person.name}}</span>
+                        </span>
+                      </td>
+                      <td>{{person.number}}</td>
+                      <td>¥{{person.money}}</td>
+                  </tr>
+                  <ng-container *ngFor="let list of person.list">
+                      <tr *ngIf="person.list&&person.isShow">
+                          <td colspan="2">
+                              <span>{{list.goodName}}</span>
+                              <span>({{list.totalNumber}})</span>
+                          </td>
+                          <td>¥{{list.totalApproveFee}}</td>
+                      </tr>
+                      <!--<tr *ngIf="business.isShow&&!business.list">-->
+                      <!--<td colspan="3">暂无数据</td>-->
+                      <!--</tr>-->
+                  </ng-container>
+              </ng-container>
+              </tbody>
+          </nz-table>
+          <ng-template #totalTemplate let-total>
+              总共 {{totalElements}} 条
+          </ng-template>
+      </nz-card>
+  </div>

@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <div class="modal-title">预售申请-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="preSale">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">申请人</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{preSale.approveInfoDTO.applicant}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">状态</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span [ngSwitch]="preSale.approveInfoDTO.status">
+                <span *ngSwitchCase="1">等待{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="2">通过{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="3">拒绝{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="12">已完结</span>
+                <span *ngSwitchDefault>已撤销</span>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">店铺</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{preSale.approveInfoDTO.shopName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">品牌</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{preSale.approveInfoDTO.brandName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{preSale.approveInfoDTO.goodName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">开始时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{preSale.startTime | date: "yyyy-MM-dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">结束时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{preSale.endTime | date: "yyyy-MM-dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">申请原因</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="preSale.approveInfoDTO.applyReason" [class.applyReason]="preSale.approveInfoDTO.applyReason.length>20">{{preSale.approveInfoDTO.applyReason}}</span>
+            <span *ngIf="!preSale.approveInfoDTO.applyReason">无</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">抄送人</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngFor="let copyTo of selectedCopyToList;let i=index" style="display: inline-block;">
+                <ng-container>
+                    <span *ngIf="i!=selectedCopyToList.length-1">{{copyTo.dingName}}&nbsp;|&nbsp; </span>
+                    <span *ngIf="i==selectedCopyToList.length-1">{{copyTo.dingName}}</span>
+                </ng-container>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="actionProcesses">
+        <nz-form-control nzSpan="16" [nzOffset]="4">
+            <ng-container *ngFor="let action of actionProcesses">
+                <div>
+                    <span>{{action.actor}}</span>
+                    <span>{{action.actionDesc}}</span>
+                    <span style="float:right">{{action.actionTime | timeStamp}}</span>
+                    <p *ngIf="action && action.remark!='null' && action.remark!=null" style="margin-left: 25px;">
+                        {{action.remark}}
+                    </p>
+                </div>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

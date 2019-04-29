@@ -1,0 +1,225 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-业务模块</div>
+</div>
+<form #f="ngForm" nz-form *ngIf="businessModule">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">业务ID</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <input nz-input [(ngModel)]="businessModule.businessType" name="businessType"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">业务名称</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <input nz-input [(ngModel)]="businessModule.businessName" name="businessName"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">业务层级</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select [nzPlaceHolder]="'请选择'" [nzAllowClear]="false" [(ngModel)]="businessModule.level" name="level" required>
+                <nz-option [nzValue]="0" nzLabel="父模块"></nz-option>
+                <nz-option [nzValue]="1" nzLabel="一级模块"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="二级模块"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm"  *ngIf="businessModule.level == 1">
+        <nz-form-label nzSpan="4" nzOffset="2">选择关联模块</nz-form-label>
+        <nz-form-control nzSpan=16>
+            <ng-container *ngFor="let m of firstModules">
+                <label nz-checkbox [(ngModel)]="m.isSelected"
+                       name="module"
+                       [nzDisabled]="m.isDisabled"
+                >
+                {{m.businessName}}
+                </label>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm"  *ngIf="businessModule.level == 2">
+        <nz-form-label nzSpan="4" nzOffset="2">选择关联模块</nz-form-label>
+        <nz-form-control nzSpan=16>
+            <ng-container *ngFor="let m of secondModules">
+                <label nz-checkbox [(ngModel)]="m.isSelected"
+                       name="module"
+                       [nzDisabled]="m.isDisabled"
+                >
+                {{m.businessName}}
+                </label>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">状态</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select [nzPlaceHolder]="'请选择'" [nzAllowClear]="false" [(ngModel)]="businessModule.status" name="status" required>
+                <nz-option [nzValue]="0" nzLabel="删除/不显示"></nz-option>
+                <nz-option [nzValue]="1" nzLabel="正常"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="未开发完成"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="businessModule.status == 1">
+        <nz-form-label nzSpan="4" nzOffset="2">
+            appLOGO
+        </nz-form-label>
+        <nz-form-control  nzSpan="14">
+            <ng-container *ngIf="imageMd5 != null">
+                <div class="avatar avatar_container">
+                    <img [src]="imageUrl" alt="Avatar" class="previewImg"  (click)="previewPic(1)">
+                </div>
+                <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
+                    <ng-template #modalContent>
+                        <img [src]="imageUrl" [ngStyle]="{ 'width': '100%' }"/>
+                    </ng-template>
+                </nz-modal>
+            </ng-container>
+            <nz-upload class="avatar-uploader"
+                       [nzAction]="upLoadUrl"
+                       nzListType="picture"
+                       [nzShowUploadList]="false"
+                       [nzBeforeUpload]="beforeUpload"
+                       (nzChange)="handleChange($event,1)">
+                <button nz-button class="button_view">
+                    <i nz-icon type="upload"></i>
+                    <span>上传LOGO</span>
+                </button>
+            </nz-upload>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="businessModule.status == 2">
+        <nz-form-label nzSpan="4" nzOffset="2">
+            app灰色LOGO
+        </nz-form-label>
+        <nz-form-control nzSpan="14">
+            <ng-container *ngIf="greyLogoImageMd5 != null">
+                <div class="avatar avatar_container">
+                    <img [src]="greyLogoImageUrl" alt="Avatar" class="previewImg" (click)="previewPic(2)">
+                </div>
+                <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">
+                    <ng-template #modalContent>
+                        <img [src]="greyLogoImageUrl" [ngStyle]="{ 'width': '100%' }" />
+                    </ng-template>
+                </nz-modal>
+            </ng-container>
+            <nz-upload class="avatar-uploader"
+                       [nzAction]="upLoadUrl"
+                       nzListType="picture"
+                       [nzShowUploadList]="false"
+                       [nzBeforeUpload]="beforeUpload"
+                       (nzChange)="handleChange($event,2)">
+                <button nz-button class="button_view">
+                    <i nz-icon type="upload"></i>
+                    <span>上传LOGO</span>
+                </button>
+            </nz-upload>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">
+            后台LOGO
+        </nz-form-label>
+        <nz-form-control nzSpan="14">
+            <ng-container  *ngIf="serverLogoImageMd5 != null">
+                <div class="avatar avatar_container">
+                    <img [src]="serverLogoImageUrl" alt="Avatar" class="previewImg" (click)="previewPic(3)">
+                </div>
+                <nz-modal [nzVisible]="previewVisible_end" [nzContent]="modalContent_end" [nzFooter]="null" (nzOnCancel)="previewVisible_end=false">
+                    <ng-template #modalContent_end>
+                        <img [src]="serverLogoImageUrl" [ngStyle]="{ 'width': '100%' }"/>
+                    </ng-template>
+                </nz-modal>
+            </ng-container>
+            <nz-upload class="avatar-uploader"
+                       [nzAction]="upLoadUrl"
+                       nzListType="picture"
+                       [nzShowUploadList]="false"
+                       [nzBeforeUpload]="beforeUpload"
+                       (nzChange)="handleChange($event,3)">
+                <button nz-button class="button_view">
+                    <i nz-icon type="upload"></i>
+                    <span>上传后台LOGO</span>
+                </button>
+            </nz-upload>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">业务链接</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <input nz-input [(ngModel)]="businessModule.linkUrl" name="linkUrl"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">是否在前端展示</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select [nzPlaceHolder]="'请选择'" [nzAllowClear]="false" [(ngModel)]="businessModule.isShowedInClient" name="isShowedInClient" required>
+                <nz-option [nzValue]="0" nzLabel="否"></nz-option>
+                <nz-option [nzValue]="1" nzLabel="是"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">管理权限</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select [nzPlaceHolder]="'请选择'" [nzAllowClear]="false" [(ngModel)]="businessModule.isManegeLimit" name="isManegeLimit" required>
+                <nz-option [nzValue]="0" nzLabel="否"></nz-option>
+                <nz-option [nzValue]="1" nzLabel="是"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">特殊权限类型</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select [nzPlaceHolder]="'请选择'" [nzAllowClear]="false" [(ngModel)]="businessModule.approvePermissionType" name="approvePermissionType" required>
+                <nz-option [nzValue]="1" nzLabel="普通"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="店铺属性"></nz-option>
+                <nz-option [nzValue]="3" nzLabel="上下架专属"></nz-option>
+                <nz-option [nzValue]="4" nzLabel="作图"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">排序</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <input nz-input [(ngModel)]="businessModule.seq" name="seq"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzOffset="2">审批层级数</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <input nz-input [(ngModel)]="businessModule.seqLevel" name="seqLevel"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="6" >是否可自行添加第一审批者</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select [nzPlaceHolder]="'请选择'" [nzAllowClear]="false" [(ngModel)]="businessModule.autoAddApproverAtFirstSeq" name="autoAddApproverAtFirstSeq" required>
+                <nz-option [nzValue]="0" nzLabel="否"></nz-option>
+                <nz-option [nzValue]="1" nzLabel="是"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="6" >是否可自行添加第二审批者</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select [nzPlaceHolder]="'请选择'" [nzAllowClear]="false" [(ngModel)]="businessModule.autoAddApproverAtSecondSeq" name="autoAddApproverAtSecondSeq" required>
+                <nz-option [nzValue]="0" nzLabel="否"></nz-option>
+                <nz-option [nzValue]="1" nzLabel="是"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="6" >是否可自行添加抄送者</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select [nzPlaceHolder]="'请选择'" [nzAllowClear]="false" [(ngModel)]="businessModule.autoAddCopy" name="autoAddCopy" required>
+                <nz-option [nzValue]="0" nzLabel="否"></nz-option>
+                <nz-option [nzValue]="1" nzLabel="是"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" (click)="save()" [nzType]="'primary'">保存</button>
+    </div>
+</form>

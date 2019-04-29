@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <div class="modal-title">修改密码</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="parentData">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">昵称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="parentData.nickName" name="nickName" maxlength="50" required [disabled]="true"/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >新密码</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <input nz-input [(ngModel)]="newPassword" name="newPassword" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

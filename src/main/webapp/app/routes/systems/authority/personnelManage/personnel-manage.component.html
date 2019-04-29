@@ -1,0 +1,77 @@
+<page-header [title]="'人员管理'" [action]="action"
+     [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">系统模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">权限管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">人员管理</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <button nz-button [nzType]="'primary'" (click)="add()" ><i nz-icon type="plus"></i><span>新建</span></button>
+    </ng-template>
+</page-header>
+<nz-card [nzBordered]="false">
+    <nz-table
+        #ajaxTable
+        nzBordered
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="dataSet"
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        [nzShowTotal]="totalTemplate"
+        (nzPageIndexChange)="searchData()"
+        (nzPageSizeChange)="searchData(true)"
+        [nzShowPagination]="true">
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+        <tr>
+            <th nzShowSort nzSortKey="id">ID</th>
+            <th nzShowSort nzSortKey="login">用户名</th>
+            <th nzShowSort nzSortKey="nickname">昵称</th>
+            <th nzShowSort nzSortKey="email">邮箱</th>
+            <th nzShowSort nzSortKey="mobilePhone">手机号码</th>
+            <!--<th nzShowSort nzSortKey="authorities">拥有角色</th>-->
+            <th nzShowSort nzSortKey="activated">是否激活</th>
+            <th nzShowSort nzSortKey="userByCompany">已关联机构</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of dataSet">
+            <td>{{data.id}}</td>
+            <td>{{data.login}}</td>
+            <td>{{data.nickname}}</td>
+            <td>{{data.email}}</td>
+            <td>{{data.mobilePhone}}</td>
+            <!--<td>-->
+                <!--<ng-container *ngFor="let auth of data.authoritiesEntity">-->
+                    <!--<span>{{auth.label}}</span><br>-->
+                <!--</ng-container>-->
+            <!--</td>-->
+            <td>
+                <span *ngIf="data.activated">是</span>
+                <span *ngIf="!data.activated">否</span>
+            </td>
+            <td>
+                <ng-container *ngFor="let company of data.userByCompany">
+                    <span>{{company.companyName}}</span><br>
+                </ng-container>
+            </td>
+            <td>
+                <a (click)="edit(data)">编辑</a>&nbsp;
+                <a (click)="delete(data.login)">删除</a>&nbsp;
+                <a (click)="check(data.login)">查看</a>&nbsp;
+                <a (click)="modifyPassword(data.login,data.nickname)" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_MANAGER']">修改密码</a>&nbsp;
+                <a (click)="own(data)">关联机构</a>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #totalTemplate let-total>
+        总共 {{total}} 条
+    </ng-template>
+</nz-card>

@@ -1,0 +1,149 @@
+<div class="modal-header">
+    <div class="modal-title">达人申请-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="daRen">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">申请人</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{daRen.approveInfoDTO.applicant}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">状态</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span [ngSwitch]="daRen.approveInfoDTO.status">
+                <span *ngSwitchCase="1">等待{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="2">通过{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="3">拒绝{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="12">已完结</span>
+                <span *ngSwitchDefault>已撤销</span>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">店铺</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{daRen.approveInfoDTO.shopName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">品牌</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{daRen.approveInfoDTO.brandName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{daRen.approveInfoDTO.goodName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">费用类型</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="daRen.priceType == 1">日费用</span>
+            <span *ngIf="daRen.priceType == 2">月费用</span>
+            <span *ngIf="daRen.priceType == 3">总费用</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">费用说明</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="daRen.priceType == 1">{{daRen.perPrice}}元/日</span>
+            <span *ngIf="daRen.priceType == 2">{{daRen.perPrice}}元/月</span>
+            <span *ngIf="daRen.priceType == 3">{{daRen.perPrice}}元</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">开始时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{daRen.startDate | date: "yyyy-MM-dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">结束时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{daRen.endDate | date: "yyyy-MM-dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">费用生成</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="daRen.priceType == 1">共{{countDays(daRen.startDate,daRen.endDate)}}天、共{{companyPrice.toFixed(2)}}元</span>
+            <span *ngIf="daRen.priceType == 2">共{{countMonth(daRen.startDate,daRen.endDate)}}月、共{{companyPrice.toFixed(2)}}元</span>
+            <span *ngIf="daRen.priceType == 3">共{{daRen.perPrice}}元</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" [nzOffset]="1">厂家支持</nz-form-label>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" [nzOffset]="1">费用说明</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="daRen.priceType == 1">{{daRen.perPriceOfSupport}}元/日</span>
+            <span *ngIf="daRen.priceType == 2">{{daRen.perPriceOfSupport}}元/月</span>
+            <span *ngIf="daRen.priceType == 3">{{daRen.perPriceOfSupport}}元</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" [nzOffset]="1">费用生成</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="daRen.priceType == 1">共{{countDays(daRen.startDate,daRen.endDate)}}天、共{{factoryPrice.toFixed(2)}}元</span>
+            <span *ngIf="daRen.priceType == 2">共{{countMonth(daRen.startDate,daRen.endDate)}}月、共{{factoryPrice.toFixed(2)}}元</span>
+            <span *ngIf="daRen.priceType == 3">共{{daRen.perPriceOfSupport}}元</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">总费用</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{daRen.totalPrice}}元</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">申请原因</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="daRen.approveInfoDTO.applyReason" [class.applyReason]="daRen.approveInfoDTO.applyReason.length>20">{{daRen.approveInfoDTO.applyReason}}</span>
+            <span *ngIf="!daRen.approveInfoDTO.applyReason">无</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm"  *ngIf="daRen.approveInfoDTO.status == 12">
+        <nz-form-label nzSpan="4">结束时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="daRen.approveInfoDTO.completeDate">{{daRen.approveInfoDTO.completeDate | date:"yyyy/MM/dd"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm"  *ngIf="daRen.approveInfoDTO.status == 12">
+        <nz-form-label nzSpan="4">实际费用</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{daRen.usedPrice}}元</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">抄送人</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngFor="let copyTo of selectedCopyToList;let i=index" style="display: inline-block;">
+                <ng-container>
+                    <span *ngIf="i!=selectedCopyToList.length-1">{{copyTo.dingName}}&nbsp;|&nbsp; </span>
+                    <span *ngIf="i==selectedCopyToList.length-1">{{copyTo.dingName}}</span>
+                </ng-container>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="actionProcesses">
+        <nz-form-control nzSpan="16" [nzOffset]="4">
+            <ng-container *ngFor="let action of actionProcesses">
+                <div>
+                    <span>{{action.actor}}</span>
+                    <span>{{action.actionDesc}}</span>
+                    <span style="float:right">{{action.actionTime | timeStamp}}</span>
+                    <p *ngIf="action && action.remark!='null' && action.remark!=null" style="margin-left: 25px;">
+                        {{action.remark}}
+                    </p>
+                </div>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

@@ -1,0 +1,162 @@
+<page-header [title]="'优惠券申请'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">销售管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">促销管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">优惠券申请</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <!--<button nz-button [nzType]="'primary'" (click)="add()" ><i nz-icon type="plus"></i><span>添加</span></button>-->
+        <button nz-button [nzType]="'primary'" (click)="viewData()" ><span>查看数据</span></button>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-label nzFor="problemType">店铺</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_shopName" name="searchItem_shopName" placeholder="店铺搜索" id="searchItem_shopName">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="searchItem_shopName">优惠券面额</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_reducePrice" name="searchItem_reducePrice" placeholder="优惠券面额搜索" id="searchItem_reducePrice">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="searchItem_shopName">优惠券门槛</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_limitPrice" name="searchItem_limitPrice" placeholder="优惠券门槛搜索" id="searchItem_limitPrice">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="searchItem_brandName">优惠券类型</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择类型'" nzId="searchItem_couponType" [nzShowSearch]="true" [(ngModel)]="searchItem_couponType" name="searchItem_couponType">
+                            <nz-option *ngFor="let tmp of couponType; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="searchItem_goodName">破价确认</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择类型'" nzId="searchItem_breakType" [nzShowSearch]="true" [(ngModel)]="searchItem_breakType" name="searchItem_breakType">
+                            <nz-option *ngFor="let tmp of breakType; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <br>
+                <nz-form-item>
+                    <nz-form-label nzFor="searchItem_shopName">申请人</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_applicant" name="searchItem_applicant" placeholder="申请人搜索" id="searchItem_applicant">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="problemType">申请理由</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem_applicantReason" name="searchItem_applicantReason" placeholder="申请理由搜索" id="searchItem_applicantReason">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="dateRange"> 起止时间</nz-form-label>
+                    <nz-form-control>
+                        <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime name="dateRange" [nzFormat]="dateFormat"></nz-range-picker>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search(true)" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;">
+                <nz-table
+                    #ajaxTable
+                    nzBordered
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="coupons"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="initData(false)"
+                    [nzShowPagination]="true">
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzShowSort nzSortKey="id">id</th>
+                        <th nzShowSort nzSortKey="approveInfo.shop.shopName">店铺</th>
+                        <th nzShowSort nzSortKey="applyType">使用对象</th>
+                        <th nzShowSort nzSortKey="applyType">优惠券类型</th>
+                        <th nzShowSort nzSortKey="reducePrice">优惠券面额</th>
+                        <th nzShowSort nzSortKey="limitPrice">优惠券门槛</th>
+                        <th nzShowSort nzSortKey="breakingPrice">破价确认</th>
+                        <th nzShowSort nzSortKey="startTime">开始时间</th>
+                        <th nzShowSort nzSortKey="endTime">结束时间</th>
+                        <th nzShowSort nzSortKey="approveInfo.applyReason">申请原因</th>
+                        <th nzShowSort nzSortKey="approveInfo.applicant">申请人</th>
+                        <th nzShowSort nzSortKey="approveInfo.status">状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let coupon of coupons">
+                        <td>{{coupon.id}}</td>
+                        <td>{{coupon.approveInfoDTO.shopName}}</td>
+                        <td [ngSwitch]="coupon.applyType">
+                            <span *ngSwitchCase="3">店铺</span>
+                            <span *ngSwitchCase="4">商品</span>
+                            <span *ngSwitchDefault>{{coupon.applyType}}</span>
+                        </td>
+                        <td [ngSwitch]="coupon.applyType">
+                            <span *ngSwitchCase="3">店铺优惠券</span>
+                            <span *ngSwitchCase="4">商品优惠券</span>
+                            <span *ngSwitchDefault>{{coupon.applyType}}</span>
+                        </td>
+                        <td>{{coupon.reducePrice }}</td>
+                        <td>{{coupon.limitPrice }}</td>
+                        <td [ngSwitch]="coupon.breakingPrice">
+                            <span *ngSwitchCase="1">是</span>
+                            <span *ngSwitchCase="2">否</span>
+                            <span *ngSwitchDefault>未知参数</span>
+                        </td>
+                        <td *ngIf="coupon.approveInfoDTO">{{coupon.startTime | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td *ngIf="coupon.approveInfoDTO">{{coupon.endTime | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td *ngIf="coupon.approveInfoDTO">{{coupon.approveInfoDTO.applyReason}}</td>
+                        <td *ngIf="coupon.approveInfoDTO">{{coupon.approveInfoDTO.applicant}}</td>
+                        <td>
+                            <span *ngIf="coupon.approveInfoDTO && coupon.approveInfoDTO.status == 1">待审批</span>
+                            <span *ngIf="coupon.approveInfoDTO && coupon.approveInfoDTO.status == 2">已通过</span>
+                            <span *ngIf="coupon.approveInfoDTO && coupon.approveInfoDTO.status == 3">已拒绝</span>
+                            <span *ngIf="coupon.approveInfoDTO && coupon.approveInfoDTO.status == 12">已完结</span>
+                            <span *ngIf="coupon.approveInfoDTO && (coupon.approveInfoDTO.status == 6 || coupon.approveInfoDTO.status == 9 || coupon.approveInfoDTO.status == 11)">已撤销</span>
+                        </td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="check(coupon.id)">查看</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

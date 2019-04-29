@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <div class="modal-title">{{theData.id==null? '添加' : '编辑'}}-人员</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="theData">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">用户名</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="theData.login" name="login" maxlength="50" disabled="true" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">昵称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="theData.nickname" name="nickname" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" useRender2>邮箱</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="theData.email" name="email" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">手机号码</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="theData.mobilePhone" name="mobilePhone" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" *ngIf="!theData.login">选择角色</nz-form-label>
+        <nz-form-label nzSpan="4" *ngIf="theData.login">重选角色</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-select nzMode="tags" style="width: 100%;" nzPlaceHolder="请选择  (支持模糊搜索)" [(ngModel)]="rolesOfTagOptions" name="authorities">
+                <nz-option *ngFor="let option of rolesOfOption" [nzLabel]="option.label" [nzValue]="option.name">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="theData.id==null">
+        <nz-form-label nzSpan="4" >选择关联机构</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <!--人员关联机构 先支持一个-->
+            <nz-select nzMode="default" style="width: 100%;" nzAllowClear nzPlaceHolder="请选择  (单选支持模糊搜索)"
+                       [(ngModel)]="selectedCompanies" name="companyId" required>
+                <ng-container *ngFor="let option of companyList" >
+                    <nz-option [nzLabel]="option.companyName" [nzValue]="option.companyId" *ngIf="option.companyName">
+                    </nz-option>
+                </ng-container>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

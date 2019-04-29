@@ -1,0 +1,79 @@
+<div class="modal-header">
+    <div class="modal-title">编辑-负面评价采集</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="appraise">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">ID</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.id" name="id" maxlength="50" [disabled]="true" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">淘宝ID</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.customerId" name="customerId" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">订单号</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.orderCode" name="orderCode" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品ID</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.goodsId" name="telephone" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.goodsName" name="goodsName" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品sku</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.sku" name="sku" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">原因</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.cause" name="cause" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">原因分析</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.analysisOfCauses" name="analysisOfCauses" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">是否已联系客服</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择'" nzId="touch" [nzAllowClear]="false" [(ngModel)]="appraise.touch" name="touch" required>
+                <nz-option [nzValue]="false" nzLabel="否"></nz-option>
+                <nz-option [nzValue]="true" nzLabel="是"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">接待客服</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.react" name="react" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">处理方案</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="appraise.proposalsForHandling" name="proposalsForHandling" maxlength="50" required />
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+        <!--<button nz-button [disabled]="!valid&&((!f.form.valid) || (!f.form.dirty))" [nzType]="'primarzy'">保存</button>-->
+    </div>
+</form>

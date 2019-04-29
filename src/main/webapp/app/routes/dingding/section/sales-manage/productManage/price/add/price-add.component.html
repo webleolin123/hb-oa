@@ -1,0 +1,69 @@
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="price">
+    <div class="modal-header">
+        <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-价格申请</div>
+    </div>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择店铺</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <ng-container>
+                <nz-select [nzPlaceHolder]="'请选择店铺'" nzId="storeName" [nzAllowClear]="false" [(ngModel)]="price.approveInfoDTO.shopId" (ngModelChange)="loadGoodByShopIdAndBrandId()" name="storeName" required>
+                    <nz-option *ngFor="let tmp of shop;" [nzLabel]="tmp.shopName" [nzValue]="tmp.id"></nz-option>
+                </nz-select>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择品牌</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <ng-container>
+                <nz-select [nzPlaceHolder]="'请选择品牌'" nzId="brandName" [nzAllowClear]="false" [(ngModel)]="price.approveInfoDTO.brandId" (ngModelChange)="loadGoodByShopIdAndBrandId()" name="brandName" required>
+                    <nz-option *ngFor="let tmp of brand;" [nzLabel]="tmp.brandName" [nzValue]="tmp.id"></nz-option>
+                </nz-select>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="price.approveInfoDTO.shopId&&price.approveInfoDTO.goodId">
+        <nz-form-label nzSpan="4">选择商品</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <ng-container>
+                <nz-select [nzPlaceHolder]="'请选择商品'" nzId="goodName" [nzAllowClear]="false" [(ngModel)]="price.approveInfoDTO.goodId" name="goodName" required>
+                    <nz-option *ngFor="let tmp of good;" [nzLabel]="tmp.goodName" [nzValue]="tmp.id"></nz-option>
+                </nz-select>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >选择申请类型</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择'" nzId="applyType" [nzAllowClear]="false" [(ngModel)]="price.applyType" name="applyType" required>
+                <nz-option [nzValue]="1" nzLabel="定价申请"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="价格变更"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <!--<nz-form-item class="mb-sm">-->
+        <!--<nz-form-label nzSpan="4" >选择默认审批人</nz-form-label>-->
+    <!--</nz-form-item>-->
+    <!--<nz-form-item class="mb-sm">-->
+        <!--<nz-form-label nzSpan="4" >选择部门</nz-form-label>-->
+        <!--<nz-form-control nzSpan="8">-->
+            <!--<ng-container>-->
+                <!--<nz-select [nzPlaceHolder]="'请选择部门'" nzId="selectedDepartment" [nzAllowClear]="false" [(ngModel)]="price.approveInfoDTO.firstApprovers[0].departmentId" (ngModelChange)="loadDepartmentUser()"  name="selectedDepartment" required>-->
+                    <!--<nz-option *ngFor="let tmp of department;" [nzLabel]="tmp.name" [nzValue]="tmp.id"></nz-option>-->
+                <!--</nz-select>-->
+            <!--</ng-container>-->
+        <!--</nz-form-control>-->
+    <!--</nz-form-item>-->
+    <!--<nz-form-item class="mb-sm" *ngIf="price.approveInfoDTO.firstApprovers[0].departmentId">-->
+        <!--<nz-form-label nzSpan="4" >选择部门成员</nz-form-label>-->
+        <!--<nz-form-control nzSpan="8">-->
+                <!--<nz-select [nzPlaceHolder]="'请选择部门成员'" nzId="selectedCopyToDepartmentUser" [nzAllowClear]="false" [(ngModel)]="price.approveInfoDTO.applicantId" name="selectedCopyToDepartmentUser" required>-->
+                    <!--<nz-option *ngFor="let tmp of departmentUsers;" [nzLabel]="tmp.name" [nzValue]="tmp.userid"></nz-option>-->
+                <!--</nz-select>-->
+        <!--</nz-form-control>-->
+    <!--</nz-form-item>-->
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

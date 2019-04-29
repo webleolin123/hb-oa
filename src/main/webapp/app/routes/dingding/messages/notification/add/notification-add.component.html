@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-公告</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="notification">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">标题</nz-form-label>
+        <nz-form-control nzSpan=8>
+            <input nz-input [(ngModel)]="notification.title" name="title" placeholder="请输入公告主题" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">内容</nz-form-label>
+        <nz-form-control nzSpan=8>
+            <input nz-input [(ngModel)]="notification.content" name="content" placeholder="请输入公告内容" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

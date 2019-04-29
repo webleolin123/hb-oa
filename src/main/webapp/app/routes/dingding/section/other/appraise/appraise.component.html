@@ -1,0 +1,125 @@
+<page-header [title]="'负面评价采集'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">综合管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">负面评价采集</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <nz-button-group>
+            <button nz-button nzType="primary" (click)="upload()">选择文件上传</button>
+            <button nz-button nzType="default" (click)="export()">导出数据</button>
+        </nz-button-group>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择'" nzId="chooseItem" [nzShowSearch]="true" [(ngModel)]="myChoose" name="chooseItem">
+                            <nz-option *ngFor="let tmp of chooseItem; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="customerId" name="customerId" placeholder="请输入淘宝ID" id="customerId" *ngIf="myChoose==0">
+                        <input nz-input [(ngModel)]="goodsId" name="goodsId" placeholder="请输入商品ID" id="goodsId" *ngIf="myChoose==1">
+                        <input nz-input [(ngModel)]="orderCode" name="orderCode" placeholder="请输入订单号" id="orderCode" *ngIf="myChoose==2">
+                        <input nz-input [(ngModel)]="label" name="label" placeholder="请输入标签" id="label" *ngIf="myChoose==3">
+                        <input nz-input [(ngModel)]="appraiseContents" name="appraiseContents" placeholder="请输入评论内容" id="appraiseContents" *ngIf="myChoose==4">
+                        <input nz-input [(ngModel)]="goodsName" name="goodsName" placeholder="请输入商品名称" id="goodsName" *ngIf="myChoose==5">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search(true)" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item  *ngIf="isChosen">
+                    <nz-form-control>
+                        <button nz-button (click)="batch_edit()" [nzType]="'primary'">批量编辑</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item *ngIf="isChosen&&hasAuthWithAdmin">
+                    <nz-form-control>
+                        <button nz-button (click)="batch_delete()" [nzType]="'primary'">批量删除</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;">
+                <nz-table
+                    #rowSelectionTable
+                    nzBordered
+                    nzShowPagination
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="appraises"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="initData(false)"
+                    (nzCurrentPageDataChange)="currentPageDataChange($event)"
+                >
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th
+                            nzShowCheckbox
+                            [(nzChecked)]="isAllDisplayDataChecked"
+                            [nzIndeterminate]="isIndeterminate"
+                            (nzCheckedChange)="checkAll($event)"
+                        ></th>
+                        <th nzShowSort nzSortKey="customerId">淘宝ID</th>
+                        <th nzShowSort nzSortKey="goodsId">商品ID</th>
+                        <th nzShowSort nzSortKey="orderCode">订单号</th>
+                        <th nzShowSort nzSortKey="store">店铺</th>
+                        <th nzShowSort nzSortKey="goodsName">商品</th>
+                        <th>评价</th>
+                        <th>负面标签</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let appraise of appraises;">
+                        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[appraise.id]" (nzCheckedChange)="refreshStatus()"></td>
+                        <td>{{appraise.customerId}}</td>
+                        <td>{{appraise.goodsId}}</td>
+                        <td>{{appraise.orderCode}}</td>
+                        <td>{{appraise.store}}</td>
+                        <td>{{appraise.goodsName}}</td>
+                        <td>
+                            <span  *ngFor="let content of appraise.appraiseContents">{{content.appraise}}</span>
+                        </td>
+                        <td>
+                            <ng-container *ngFor="let item of appraise.appraiseContents">
+                                <button nz-button nzType="danger" nzGhost nzSize="small"   *ngFor="let appraiseLabel of item.appraiseLabels" style="margin-top: 5px">{{appraiseLabel.label}}</button>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="edit(appraise.id)">编辑</button><br><br>
+                            <button nz-button [nzType]="'primary'" (click)="delete(appraise)">删除</button><br><br>
+                            <button nz-button [nzType]="'primary'" (click)="check(appraise.id)">详情</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

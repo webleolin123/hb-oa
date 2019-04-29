@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <div class="modal-title">公告-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="notification">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">标题</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{notification.title}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">内容</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{notification.content}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">操作人</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{notification.operator}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">操作时间</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{notification.publishTime | date:"yyyy/MM/dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

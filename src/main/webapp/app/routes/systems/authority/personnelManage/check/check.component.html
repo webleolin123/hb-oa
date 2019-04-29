@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <div class="modal-title">人员-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="data">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">用户名</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.login}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">昵称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.nickname}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">邮箱</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.email}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">手机号码</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{data.mobilePhone}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">是否激活</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="data.activated">是</span>
+            <span *ngIf="!data.activated">否</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">拥有角色</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <ng-container *ngFor="let auth of data.authoritiesEntity">
+                <span>{{auth.label}}</span><br>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

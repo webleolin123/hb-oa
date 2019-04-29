@@ -1,0 +1,52 @@
+<page-header [title]="'工资明细'"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">综合管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a routerLink="/dingding/section/salary">工资条</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">工资明细</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+</page-header>
+<nz-card [nzBordered]="false">
+    <div>
+        <h1 style="display: inline-block">导入明细</h1>
+        <button nz-button (click)="uploadData()" [nzType]="'primary'" style="float: right">上传文件</button>
+    </div>
+    <nz-tabset>
+        <nz-tab *ngFor="let salaryTableSheetsModel of salaryTableSheetsModels" [nzTitle]="salaryTableSheetsModel.key">
+            <nz-table
+                #salaryTable
+                nzBordered
+                [nzData]="salaryTableSheetsModel.bodys"
+                [nzLoading]="loading"
+                [nzShowTotal]="totalTemplate"
+                [nzWidthConfig]="salaryTableSheetsModel.widthConfig"
+                [nzScroll]="salaryTableSheetsModel.nzScroll">
+                <thead>
+                <tr>
+                    <ng-container *ngFor="let tmp of salaryTableSheetsModel.head;let i=index ">
+                        <th *ngIf="i==0" nzLeft="0px">{{tmp}}</th>
+                        <th *ngIf="i==salaryTableSheetsModel.head.length-1" nzRight="0px">{{tmp}}</th>
+                        <th *ngIf="i!==0&&i!==salaryTableSheetsModel.head.length-1">{{tmp}}</th>
+                    </ng-container>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let data of salaryTable.data;">
+                    <ng-container *ngFor="let tmp of data;let i=index">
+                        <td *ngIf="i==0" nzLeft="0px">{{tmp}}</td>
+                        <td *ngIf="i==data.length-1" nzRight="0px">{{tmp}}</td>
+                        <td *ngIf="i!==0&&i!==data.length-1">{{tmp}}</td>
+                    </ng-container>
+                </tr>
+                </tbody>
+            </nz-table>
+            <ng-template #totalTemplate let-total>
+                总共 {{ salaryTableSheetsModel.bodys.length}} 条
+            </ng-template>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

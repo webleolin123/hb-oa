@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-商品</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="good">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择店铺</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择店铺'" nzId="storeName" [nzAllowClear]="false" [(ngModel)]="good.shopId" name="storeName" required>
+                <nz-option *ngFor="let tmp of shop;" [nzLabel]="tmp.shopName" [nzValue]="tmp.id"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择品牌</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择品牌'" nzId="brandName" [nzAllowClear]="false" [(ngModel)]="good.brandId" name="brandName" required>
+                <nz-option *ngFor="let tmp of brand;" [nzLabel]="tmp.brandName" [nzValue]="tmp.id"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品名称</nz-form-label>
+        <nz-form-control nzSpan=8>
+            <input nz-input [(ngModel)]="good.goodName" name="goodName"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >商品ID</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="good.goodId" name="goodId" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >商品数量</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="good.number" name="number" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >商品价格</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="good.price" name="price" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <!--<nz-form-item class="mb-sm">-->
+        <!--<nz-form-label nzSpan="4" >商品内部价格</nz-form-label>-->
+        <!--<nz-form-control nzSpan="8">-->
+            <!--<input nz-input [(ngModel)]="good.priceInterval" name="priceInterval" maxlength="50" required/>-->
+        <!--</nz-form-control>-->
+    <!--</nz-form-item>-->
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

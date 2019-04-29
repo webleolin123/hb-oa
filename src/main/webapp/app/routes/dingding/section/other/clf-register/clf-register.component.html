@@ -1,0 +1,170 @@
+<page-header [title]="'售后登记管理'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">综合管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">售后登记管理</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <nz-button-group>
+            <button nz-button nzType="primary" (click)="viewData()">查看数据</button>
+            <button nz-button nzType="default" (click)="export()">导出数据</button>
+        </nz-button-group>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择'" nzId="chooseItem" [nzShowSearch]="true" [(ngModel)]="myChoose" name="chooseItem">
+                            <nz-option *ngFor="let tmp of chooseItem; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="taoBaoId" name="taoBaoId" placeholder="请输入淘宝ID" id="taoBaoId" *ngIf="myChoose==0">
+                        <input nz-input [(ngModel)]="orderId" name="orderId" placeholder="请输入订单号" id="orderId" *ngIf="myChoose==1">
+                        <input nz-input [(ngModel)]="telephone" name="telephone" placeholder="请输入电话号码" id="telephone" *ngIf="myChoose==2">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="problemType">问题类型</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择问题类型'" nzId="problemType" [nzShowSearch]="true" [(ngModel)]="problemTypeValue" name="problemType">
+                            <nz-option *ngFor="let tmp of problemType; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="helpType">帮助类型</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择帮助类型'" nzId="helpType" [nzShowSearch]="true" [(ngModel)]="helpTypeValue" name="helpType">
+                            <nz-option *ngFor="let tmp of helpType; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime name="dateRange" [nzFormat]="dateFormat"></nz-range-picker>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search(true)" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item  *ngIf="isChosen">
+                    <nz-form-control>
+                        <button nz-button (click)="batch_edit()" [nzType]="'primary'">批量编辑</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item *ngIf="isChosen&&hasAuthWithAdmin">
+                    <nz-form-control>
+                        <button nz-button (click)="batch_delete()" [nzType]="'primary'">批量删除</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;">
+                <nz-table
+                    #rowSelectionTable
+                    nzBordered
+                    nzShowPagination
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="clfInfos"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="initData(false)"
+                    (nzCurrentPageDataChange)="currentPageDataChange($event)"
+                >
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th
+                            nzShowCheckbox
+                            [(nzChecked)]="isAllDisplayDataChecked"
+                            [nzIndeterminate]="isIndeterminate"
+                            (nzCheckedChange)="checkAll($event)"
+                        ></th>
+                        <th nzShowSort nzSortKey="taoBaoId">淘宝ID</th>
+                        <th nzShowSort nzSortKey="orderId">订单号</th>
+                        <th nzShowSort nzSortKey="telephone">电话号码</th>
+                        <th nzShowSort nzSortKey="problemType">问题类型</th>
+                        <th nzShowSort nzSortKey="helpType">帮助类型</th>
+                        <th nzShowSort nzSortKey="problemInstruction">问题说明</th>
+                        <th nzShowSort nzSortKey="createdDate">提交时间</th>
+                        <th nzShowSort nzSortKey="status">状态</th>
+                        <th nzShowSort nzSortKey="actionType">处理方式</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let clf of clfInfos;let i=index">
+                        <td nzShowCheckbox [(nzChecked)]="mapOfCheckedId[clf.id]" (nzCheckedChange)="refreshStatus()"></td>
+                        <td>{{clf.taoBaoId}}</td>
+                        <td>{{clf.orderId}}</td>
+                        <td>{{clf.telephone}}</td>
+                        <td [ngSwitch]="clf.problemType">
+                            <span *ngSwitchCase="1">差价问题</span>
+                            <span *ngSwitchCase="2">商品错漏发</span>
+                            <span *ngSwitchCase="3">商品破损</span>
+                            <span *ngSwitchCase="4">商品指导使用</span>
+                            <span *ngSwitchCase="5">其他问题</span>
+                            <span *ngSwitchDefault>未知参数</span>
+                        </td>
+                        <td [ngSwitch]="clf.helpType">
+                            <span *ngSwitchCase="1">商品补发</span>
+                            <span *ngSwitchCase="2">退差价</span>
+                            <span *ngSwitchCase="3">直接退货</span>
+                            <span *ngSwitchCase="4">客服协助</span>
+                            <span *ngSwitchDefault>未知参数</span>
+                        </td>
+                        <td>
+                            <span>{{clf.problemInstruction}}</span><br>
+                            <span  style="width: 100%;display: inline-block;height:50px;line-height: 50px;padding: 5px;text-align: center;vertical-align: middle" *ngIf="clf.imageArr">
+                            <img [src]="img" *ngFor="let img of clf.imageArr"style="width: 42px;height: 42px;padding: 2px;vertical-align: middle">
+                        </span>
+                        </td>
+                        <td>{{clf.createdDate | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td [ngSwitch]="clf.status">
+                            <span *ngSwitchCase="1">未处理</span>
+                            <span *ngSwitchCase="2">已处理</span>
+                            <span *ngSwitchDefault>未知参数</span>
+                        </td>
+                        <td [ngSwitch]="clf.actionType">
+                            <span *ngSwitchCase="0">未处理</span>
+                            <span *ngSwitchCase="1">商品补发</span>
+                            <span *ngSwitchCase="2">退差价</span>
+                            <span *ngSwitchCase="3">直接退货</span>
+                            <span *ngSwitchCase="4">客服协助</span>
+                            <span *ngSwitchDefault>未知参数</span>
+                        </td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="edit(clf.id)">编辑</button>
+                            <button nz-button [nzType]="'primary'" (click)="delete(clf)">删除</button>
+                            <button nz-button [nzType]="'primary'" (click)="showDetail(clf.id)">详情</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

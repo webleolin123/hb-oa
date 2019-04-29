@@ -1,0 +1,50 @@
+<page-header [title]="'角色管理'"[action]="action"
+     [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">系统模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">权限管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">角色管理</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <button nz-button [nzType]="'primary'" (click)="add()" ><i nz-icon type="plus"></i><span>新建</span></button>
+    </ng-template>
+</page-header>
+<nz-card [nzBordered]="false">
+    <nz-table
+        #ajaxTable
+        nzBordered
+        nzShowSizeChanger
+        [nzFrontPagination]="false"
+        [nzData]="dataSet"
+        [nzLoading]="loading"
+        [nzTotal]="total"
+        [(nzPageIndex)]="pageIndex"
+        [(nzPageSize)]="pageSize"
+        [nzShowTotal]="totalTemplate"
+        (nzPageIndexChange)="searchData()"
+        (nzPageSizeChange)="searchData(true)"
+        [nzShowPagination]="true">
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+        <tr>
+            <th nzShowSort nzSortKey="name">角色标识</th>
+            <th nzShowSort nzSortKey="label">角色名称</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of dataSet">
+            <td>{{data.name}}</td>
+            <td>{{data.label}}</td>
+            <td>
+                <a (click)="delete(data.name)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+    <ng-template #totalTemplate let-total>
+        总共 {{total}} 条
+    </ng-template>
+</nz-card>

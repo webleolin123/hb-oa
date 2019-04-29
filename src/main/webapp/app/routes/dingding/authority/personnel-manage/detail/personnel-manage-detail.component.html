@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <div class="modal-title">人员-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="personnel">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">人员id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{personnel.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">部门</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{personnel.department}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">职位</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{personnel.position}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">钉钉id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{personnel.userid}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">姓名</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{personnel.name}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">手机号</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{personnel.mobile}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">邮箱</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{personnel.email}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">角色</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{personnel.roles}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">是否激活</nz-form-label>
+        <nz-form-control nzSpan="8">
+               <span [ngSwitch]="personnel.active">
+                    <span *ngSwitchCase="true">是</span>
+                    <span *ngSwitchCase="false">否</span>
+                    <span *ngSwitchDefault>{{personnel.active}}</span>
+                </span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="save()">确定</button>
+    </div>
+</form>

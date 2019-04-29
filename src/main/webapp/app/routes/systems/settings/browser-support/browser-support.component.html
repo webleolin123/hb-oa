@@ -1,0 +1,34 @@
+<page-header [title]="'浏览器支持'"
+     [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">系统模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">系统设置</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">浏览器支持</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+</page-header>
+<nz-card [nzBordered]="false">
+    <div class="main">
+        <h3 style="padding-top: 20px">浏览器支持</h3>
+        <div class="desc">
+            <p>本网站主要使用angular语言，支持最近的浏览器，包括下列版本：</p>
+            <img src="../../../../../assets/tmp/img/browserSpport.jpg" alt="" style="border-radius: 10px;">
+        </div>
+        <p>另外多加一个CSS3中兼容性写法 </p>
+        <p>&#x3000;&#x3000;-webkit这个为浏览器的前缀代表浏览器的私有属性 </p>
+        <p>&#x3000;&#x3000;-ms 这是IE浏览器的前缀 </p>
+        <p>&#x3000;&#x3000;-moz 这代表了火狐浏览器的前缀 </p>
+        <p>&#x3000;&#x3000;-o 这代表着欧朋浏览器 </p>
+        <p>&#x3000;&#x3000;-webkit 这代表了谷歌浏览器和苹果浏览器 </p>
+    </div>
+</nz-card>
+<style>
+    p {
+        font-size: 14px;
+    }
+    /*div.main{ !*section 高度*!*/
+        /*min-height: 717px;*/
+    /*}*/
+</style>

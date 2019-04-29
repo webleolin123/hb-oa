@@ -1,0 +1,88 @@
+<!--<nz-spin [nzSpinning]="userLoading">-->
+    <!--<div class="main" *ngIf="user">-->
+        <!--<div class="left">-->
+            <!--<form nz-form nzLayout="vertical" #f="ngForm" (submit)="save()" se-container="1">-->
+                <!--<se label="邮箱" error="请输入您的邮箱!">-->
+                    <!--<input nz-input type="email" [(ngModel)]="user.email" name="email" required>-->
+                <!--</se>-->
+                <!--<se label="昵称" error="请输入您的昵称!">-->
+                    <!--<input nz-input [(ngModel)]="user.name" name="name" required>-->
+                <!--</se>-->
+                <!--<se label="个人简介">-->
+          <!--<textarea nz-input [(ngModel)]="user.profile" name="profile" [nzAutosize]="{ minRows: 4, maxRows: 10 }"-->
+                    <!--placeholder="个人简介"></textarea>-->
+                <!--</se>-->
+                <!--&lt;!&ndash;//接口无此字段 暂不显示这些内容&ndash;&gt;-->
+                <!--&lt;!&ndash;<se label="国家/地区">&ndash;&gt;-->
+                <!--&lt;!&ndash;<nz-select [(ngModel)]="user.country" name="country" required>&ndash;&gt;-->
+                <!--&lt;!&ndash;<nz-option nzLabel="中国" nzValue="China"></nz-option>&ndash;&gt;-->
+                <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
+                <!--&lt;!&ndash;</se>&ndash;&gt;-->
+                <!--&lt;!&ndash;<se label="所在省市">&ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="d-flex justify-content-between">&ndash;&gt;-->
+                <!--&lt;!&ndash;<nz-select [(ngModel)]="user.geographic.province.key" (ngModelChange)="choProvince($event)"&ndash;&gt;-->
+                <!--&lt;!&ndash;name="geographic.province.key" required class="width-50 mr-sm">&ndash;&gt;-->
+                <!--&lt;!&ndash;<nz-option *ngFor="let p of provinces" [nzLabel]="p.name" [nzValue]="p.id"></nz-option>&ndash;&gt;-->
+                <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
+                <!--&lt;!&ndash;<nz-select [(ngModel)]="user.geographic.city.key" name="geographic.city.key" required&ndash;&gt;-->
+                <!--&lt;!&ndash;class="width-50">&ndash;&gt;-->
+                <!--&lt;!&ndash;<nz-option *ngFor="let p of cities" [nzLabel]="p.name" [nzValue]="p.id"></nz-option>&ndash;&gt;-->
+                <!--&lt;!&ndash;</nz-select>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</se>&ndash;&gt;-->
+                <!--&lt;!&ndash;<se label="街道地址" error="请输入您的街道地址!">&ndash;&gt;-->
+                <!--&lt;!&ndash;<input nz-input [(ngModel)]="user.address" name="address" required>&ndash;&gt;-->
+                <!--&lt;!&ndash;</se>&ndash;&gt;-->
+                <!--&lt;!&ndash;//接口无此字段 暂不显示这些内容&ndash;&gt;-->
+                <!--<se label="联系电话" error="请输入您的联系电话!">-->
+                    <!--<input nz-input [(ngModel)]="user.phone" name="phone" required>-->
+                <!--</se>-->
+                <!--<se label="已关联机构" error="暂无关联机构!">-->
+                    <!--<ng-container *ngFor="let company of hasCompanyList">-->
+                        <!--<span style="padding-left: 12px">{{company.companyName}}</span><br>-->
+                    <!--</ng-container>-->
+                    <!--<ng-container *ngIf="hasCompanyList.length==0">-->
+                        <!--<span style="padding-left: 12px">暂无</span>-->
+                    <!--</ng-container>-->
+                <!--</se>-->
+                <!--<se>-->
+                    <!--<button nz-button nzType="primary" [disabled]="f.invalid">更新基本信息</button>-->
+                <!--</se>-->
+            <!--</form>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div class="right">&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="avatar_title">Avatar</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="avatar"><img src="{{user.avatar}}" alt="Avatar"></div>&ndash;&gt;-->
+            <!--&lt;!&ndash;<nz-upload nzAction="/user/avatar" [nzShowUploadList]="false">&ndash;&gt;-->
+                <!--&lt;!&ndash;<button nz-button class="button_view">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i nz-icon type="upload"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span>更换头像</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;</nz-upload>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--<div class="right">-->
+            <!--<div class="avatar_title">Avatar</div>-->
+            <!--<div class="avatar">-->
+                <!--<img *ngIf="avatarUrl.length==0" src="{{user.avatar}}" alt="Avatar">-->
+                <!--<img *ngIf="avatarUrl.length>0" [src]="avatarUrl" class="avatar" (click)="previewPic()">-->
+            <!--</div>-->
+            <!--<nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="previewVisible=false">-->
+                <!--<ng-template #modalContent>-->
+                    <!--<img [src]="avatarUrl" [ngStyle]="{ 'width': '100%' }" />-->
+                <!--</ng-template>-->
+            <!--</nz-modal>-->
+            <!--<nz-upload class="avatar-uploader"-->
+                       <!--[nzAction]="upLoadUrl"-->
+                       <!--nzName="avatar"-->
+                       <!--nzListType="picture"-->
+                       <!--[nzShowUploadList]="false"-->
+                       <!--[nzBeforeUpload]="beforeUpload"-->
+                       <!--(nzChange)="handleChange($event)">-->
+                    <!--<button nz-button class="button_view">-->
+                        <!--<i nz-icon type="upload"></i>-->
+                        <!--<span>更换头像</span>-->
+                    <!--</button>-->
+            <!--</nz-upload>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</nz-spin>-->

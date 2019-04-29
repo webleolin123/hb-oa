@@ -1,0 +1,92 @@
+div.detail h2 span,b{
+    font-size: 24px;
+    color: #3a4266;
+    font-weight: bold;
+}
+div.detail h2{
+    margin-left: 35px;
+    position: relative;
+    top:40px;
+}
+div.msg{
+    background-color: white;
+    margin-left: 35px;
+    margin-top: 55px;
+}
+div.msg p{
+    line-height: 30px;
+    position: relative;
+    left: 180px;
+    top:40px;
+}
+div.msg p span.prev{
+    margin-right: 10px;
+}
+div.msg p span{
+    font-size: 14px;
+    color: #5e6266;
+}
+button.back{
+    width: 100px;
+    height: 36px;
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: 50px;
+    margin-left: 250px;
+    margin-bottom: 30px;
+}
+textarea#content{
+    width: 500px;
+    height: 100px;
+    border: 1px solid #e1e2e6;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #5e6266;
+    padding: 20px;
+    resize: none;
+}
+textarea#content2{
+    width: 800px;
+    height: 200px;
+    border: 1px solid #e1e2e6;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #5e6266;
+    padding: 20px;
+    resize: none;
+}
+.inputBorder{
+    height: 32px;
+    border: 1px solid #d2d6de;
+    vertical-align: middle;
+    padding-left: 10px;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+.myBtn-primary{
+    color:#1E88C7;
+    border: 1px solid #99D3F5;
+    border-radius: 6px;
+    background: #D0EEFF;
+    padding: 7px 14px;
+    display:inline-block;
+    line-height: 20px;
+}
+.myBtn-view{
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px!important;
+    height: 30px;
+    color: #ff4c6a!important;
+    background: #fff;
+    border: 1px solid #ff4c6a!important;
+    padding: 0 8px;
+}
+.myColorBtn{
+    color: #fff!important;
+    padding: 0;
+    width: 80px;
+    height: 30px;
+    font-size: 14px!important;
+    background-image: -webkit-gradient(linear, left top, right top, from(#ff4ca6), to(#ff4c6a));
+}

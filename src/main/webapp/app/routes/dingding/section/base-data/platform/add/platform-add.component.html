@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-平台</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="platform">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">平台名称</nz-form-label>
+        <nz-form-control nzSpan=16>
+            <input nz-input [(ngModel)]="platform.platformName" name="platformName"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >平台下的商品Url前缀</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <input nz-input [(ngModel)]="platform.preLink" name="preLink" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

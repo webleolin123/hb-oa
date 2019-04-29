@@ -1,0 +1,7 @@
+span.mySpan{
+    text-align: right;
+    display: inline-block;
+    width: 70px;
+    margin-right: 35px;
+    color: darkgray;
+}

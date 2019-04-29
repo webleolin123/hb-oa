@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <div class="modal-title">百度推送-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="baidu">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{baidu.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">消息ID</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{baidu.msgId}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">设备类型</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="baidu.deviceType==3">Android</span>
+            <span *ngIf="baidu.deviceType==4">iOS</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">标题</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{baidu.title}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">内容</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{baidu.content}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">推送对象</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{baidu.byUser}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

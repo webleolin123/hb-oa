@@ -1,0 +1,64 @@
+<page-header [title]="'考勤明细'"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">综合管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a routerLink="/dingding/section/attendance">考勤</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">考勤明细</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+</page-header>
+<nz-card [nzBordered]="false">
+    <div>
+        <h1 style="display: inline-block">导入明细</h1>
+        <button nz-button (click)="uploadData()" [nzType]="'primary'" style="float: right">上传文件</button>
+    </div>
+    <nz-tabset>
+        <nz-tab *ngFor="let attendanceTableSheetsModel of attendanceTableSheetsModels" [nzTitle]="attendanceTableSheetsModel.key">
+            <nz-table
+                #attendanceTable
+                nzBordered
+                [nzData]="attendanceTableSheetsModel.bodys"
+                [nzLoading]="loading"
+                [nzShowTotal]="totalTemplate"
+                [nzWidthConfig]="attendanceTableSheetsModel.widthConfig"
+                [nzScroll]="attendanceTableSheetsModel.nzScroll">
+                <thead>
+                <tr>
+                    <ng-container *ngFor="let tmp of attendanceTableSheetsModel.head;let i=index ">
+                        <th *ngIf="i==0" nzLeft="0px">{{tmp}}</th>
+                        <th *ngIf="i==attendanceTableSheetsModel.head.length-1" nzRight="0px">{{tmp}}</th>
+                        <th *ngIf="i!==0&&i!==attendanceTableSheetsModel.head.length-1">{{tmp}}</th>
+                    </ng-container>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngIf="type==1">
+                    <tr *ngFor="let data of attendanceTable.data;">
+                        <ng-container *ngFor="let tmp of data;let i=index ">
+                            <td *ngIf="i==0" nzLeft="0px">{{tmp}}</td>
+                            <td *ngIf="i==data.length-1" nzRight="0px">{{tmp}}</td>
+                            <td *ngIf="i!==0&&i!==data.length-1">{{tmp}}</td>
+                        </ng-container>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="type==2">
+                    <tr *ngFor="let data of attendanceTable.data;">
+                        <ng-container *ngFor="let tmp of data;let i=index ">
+                            <td *ngIf="i==0" nzLeft="0px">{{tmp}}</td>
+                            <td *ngIf="i==1">{{tmp}}</td>
+                            <td *ngIf="i>1&&i!==data.length-1">{{tmp | cutStrPipe}}</td>
+                            <td *ngIf="i==data.length-1" nzRight="0px">{{tmp | cutStrPipe}}</td>
+                        </ng-container>
+                    </tr>
+                </ng-container>
+                </tbody>
+            </nz-table>
+            <ng-template #totalTemplate let-total>
+                总共 {{ attendanceTableSheetsModel.bodys.length}} 条
+            </ng-template>
+        </nz-tab>
+    </nz-tabset>
+</nz-card>

@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-帮助规则</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="helpRoles">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择模块</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择店铺'" nzId="businessName" [nzAllowClear]="false" [(ngModel)]="helpRoles.businessType" name="businessName" required>
+                <nz-option *ngFor="let tmp of businessModules;" [nzLabel]="tmp.businessName" [nzValue]="tmp.businessType"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">问题</nz-form-label>
+        <nz-form-control nzSpan=8>
+            <input nz-input [(ngModel)]="helpRoles.question" name="question"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >答案</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="helpRoles.answerStr" name="answerStr" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >是否需要通知</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择'" nzId="isNeedToNotify" [nzAllowClear]="false" [(ngModel)]="helpRoles.isNeedToNotify" name="isNeedToNotify" required>
+                <nz-option [nzValue]="0" nzLabel="否"></nz-option>
+                <nz-option [nzValue]="1" nzLabel="是"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >有效期</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-date-picker style="width: 100%" [(ngModel)]="date" (ngModelChange)="dateChange($event)" [nzFormat]="dateFormat" name="datePick" nzPlaceHolder="请选择有效期"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >排序</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="helpRoles.order" name="order" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

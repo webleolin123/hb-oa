@@ -1,0 +1,82 @@
+<page-header [title]="'部门管理'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉权限</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">部门管理</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <!--<button nz-button [nzType]="'primary'" (click)="add()" ><i nz-icon type="plus"></i><span>添加审批权限</span></button>-->
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择类型'" nzId="searchItem_applyType" [nzShowSearch]="true" [(ngModel)]="searchItem_applyType" name="searchItem_applyType">
+                            <nz-option *ngFor="let tmp of applyType; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchContent" name="name" placeholder="请输入部门名称" id="name">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search(true)" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;">
+                <nz-table
+                    #ajaxTable
+                    nzBordered
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="departments"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="initData(false)"
+                    [nzShowPagination]="true">
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzShowSort nzSortKey="id">部门id</th>
+                        <th nzShowSort nzSortKey="departmentName">上级部门</th>
+                        <th nzShowSort nzSortKey="departmentType">部门名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let department of departments;">
+                        <td>{{department.id}}</td>
+                        <td>{{department.higherDepartments}}</td>
+                        <td>{{department.name}}</td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="showDetail(department.name)">查看人员</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

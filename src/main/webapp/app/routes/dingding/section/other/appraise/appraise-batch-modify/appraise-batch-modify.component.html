@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <div class="modal-title">批量编辑-负面评价采集</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save()" nz-form>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">修改的信息类型</nz-form-label>
+        <nz-form-control  nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择'" nzId="kind" [(ngModel)]="kind" [nzAllowClear]="false" name="kind" required>
+                <nz-option [nzValue]="1" nzLabel="原因"></nz-option>
+                <nz-option [nzValue]="2" nzLabel=原因分析></nz-option>
+                <nz-option [nzValue]="3" nzLabel="处理方案"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">修改或添加的内容</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="info"  [(ngModel)]="info" name="info" required />
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

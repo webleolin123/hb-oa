@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-品牌</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="brand">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">品牌名称</nz-form-label>
+        <nz-form-control nzSpan=8>
+            <input nz-input [(ngModel)]="brand.brandName" name="brandName"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >是否代理</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择'" nzId="isAgencyBrand" [nzAllowClear]="false" [(ngModel)]="brand.isAgencyBrand" name="isAgencyBrand" required>
+                <nz-option [nzValue]="1" nzLabel="否"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="是"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

@@ -1,0 +1,81 @@
+<div class="modal-header">
+    <div class="modal-title">消息通知-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="message">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{message.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">标题</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{message.title}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">内容</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{message.content}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">业务值</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{message.value}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">消息类型</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{message.msgType}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">是否推送</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="message.needPush == 0">否</span>
+            <span *ngIf="message.needPush == 1">是</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">目标类型</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="message.targetType == 1">全体</span>
+            <span *ngIf="message.targetType == 2">个人</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">业务种类</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="message.kind == 1">评论</span>
+            <span *ngIf="message.kind == 2">关注</span>
+            <span *ngIf="message.kind == 3">投稿审核</span>
+            <span *ngIf="message.kind == 4">升管审核</span>
+            <span *ngIf="message.kind == 5">禁言</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">推送目标</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{message.targetUser}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">推送时间</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{message.createdTime | date: 'yyyy-MM-dd HH:mm'}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">是否已读</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="message.isRead == 0">否</span>
+            <span *ngIf="message.isRead == 1">是</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

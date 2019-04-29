@@ -1,0 +1,118 @@
+<div class="modal-header">
+    <div class="modal-title">满减申请-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="reduce">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">申请人</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{reduce.approveInfoDTO.applicant}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">状态</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span [ngSwitch]="reduce.approveInfoDTO.status">
+                <span *ngSwitchCase="1">等待{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="2">通过{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="3">拒绝{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="12">已完结</span>
+                <span *ngSwitchDefault>已撤销</span>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">店铺</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{reduce.approveInfoDTO.shopName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">使用对象</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span [ngSwitch]="reduce.applyType">
+                <span *ngSwitchCase="1">店铺</span>
+                <span *ngSwitchCase="2">商品</span>
+                <span *ngSwitchDefault>{{reduce.applyType}}</span>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">满减类型</nz-form-label>
+        <nz-form-control nzSpan="16">
+             <span [ngSwitch]="reduce.applyType">
+                <span *ngSwitchCase="1">店铺满减</span>
+                <span *ngSwitchCase="2">商品满减</span>
+                 <span *ngSwitchDefault>{{reduce.applyType}}</span>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">破价确认</nz-form-label>
+        <nz-form-control nzSpan="16">
+              <span [ngSwitch]="reduce.breakingPrice">
+                    <span *ngSwitchCase="1">是</span>
+                    <span *ngSwitchCase="2">否</span>
+                    <span *ngSwitchDefault>未知参数</span>
+              </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">满减面额</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{reduce.reducePrice}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">满减门槛</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{reduce.limitPrice}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">开始时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{reduce.startTime | date: "yyyy-MM-dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">结束时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{reduce.endTime | date: "yyyy-MM-dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">申请原因</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="reduce.approveInfoDTO.applyReason" [class.applyReason]="reduce.approveInfoDTO.applyReason.length>20">{{reduce.approveInfoDTO.applyReason}}</span>
+            <span *ngIf="!reduce.approveInfoDTO.applyReason">无</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">抄送人</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngFor="let copyTo of selectedCopyToList;let i=index" style="display: inline-block;">
+                <ng-container>
+                    <span *ngIf="i!=selectedCopyToList.length-1">{{copyTo.dingName}}&nbsp;|&nbsp; </span>
+                    <span *ngIf="i==selectedCopyToList.length-1">{{copyTo.dingName}}</span>
+                </ng-container>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="actionProcesses">
+        <nz-form-control nzSpan="16" [nzOffset]="4">
+            <ng-container *ngFor="let action of actionProcesses">
+                <div>
+                    <span>{{action.actor}}</span>
+                    <span>{{action.actionDesc}}</span>
+                    <span style="float:right">{{action.actionTime | timeStamp}}</span>
+                    <p *ngIf="action && action.remark!='null' && action.remark!=null" style="margin-left: 25px;">
+                        {{action.remark}}
+                    </p>
+                </div>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

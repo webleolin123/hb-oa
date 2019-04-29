@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.name? '添加' : '编辑'}}-角色</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="data">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">角色标识</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="data.name" name="name" (blur)="valiName(data.name)" maxlength="50" required/>
+        </nz-form-control>
+        <nz-form-control nzSpan="10" [nzOffset]="1">
+            <span style="color:#bfbfbf">角色标识输入请以 ROLE_ 开头 例如：ROLE_USER</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >角色名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="data.label" name="label" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

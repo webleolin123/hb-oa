@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <div class="modal-title">商品SKU-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="goodSku">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品id</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{goodSku.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">所属商品</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{goodSku.goodName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">SKU名称</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{goodSku.skuName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">SKU数量</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{goodSku.skuNum}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">日常价格</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{goodSku.dailyPrice}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">日常特价</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{goodSku.dailySpecialPrice}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">活动价格</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{goodSku.activityPrice}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">活动特价</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{goodSku.acticitySpecialPrice}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

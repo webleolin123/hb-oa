@@ -1,0 +1,64 @@
+<nz-list nzItemLayout="horizontal">
+    <nz-list-item [nzActions]="[passwordOp]">
+        <ng-template #passwordOp>
+            <a (click)="add()">修改</a>
+        </ng-template>
+        <nz-list-item-meta nzTitle="账户密码" [nzDescription]="passwordDesc">
+            <ng-template #passwordDesc>
+                <!--<span> 当前密码强度：</span>-->
+                <!--暂时不显示密码强度 如需显示 需要后端加密码强度的字段-->
+                <!--<span [ngSwitch]="securityLevel">-->
+                <!--<span *ngSwitchCase="'ok'">-->
+                <!--<span class="text-green">强</span>-->
+                <!--</span>-->
+                <!--<span *ngSwitchCase="'pass'">-->
+                <!--<span class="text-yellow">中</span>-->
+                <!--</span>-->
+                <!--<span *ngSwitchCase="'pool'">-->
+                <!--<span class="text-red">弱</span>-->
+                <!--</span>-->
+                <!--</span>-->
+            </ng-template>
+        </nz-list-item-meta>
+    </nz-list-item>
+    <!--<nz-list-item [nzActions]="[phoneOp]">-->
+    <!--<ng-template #phoneOp>-->
+    <!--<a (click)="msg.success('Edit')">修改</a>-->
+    <!--</ng-template>-->
+    <!--<nz-list-item-meta nzTitle="密保手机" [nzDescription]="phoneDesc">-->
+    <!--<ng-template #phoneDesc>-->
+    <!--已绑定手机：159****2231-->
+    <!--</ng-template>-->
+    <!--</nz-list-item-meta>-->
+    <!--</nz-list-item>-->
+    <!--<nz-list-item [nzActions]="[questionOp]">-->
+    <!--<ng-template #questionOp>-->
+    <!--<a (click)="msg.success('Edit')">修改</a>-->
+    <!--</ng-template>-->
+    <!--<nz-list-item-meta nzTitle="密保问题" [nzDescription]="questionDesc">-->
+    <!--<ng-template #questionDesc>-->
+    <!--未设置密保问题，密保问题可有效保护账户安全-->
+    <!--</ng-template>-->
+    <!--</nz-list-item-meta>-->
+    <!--</nz-list-item>-->
+    <!--<nz-list-item [nzActions]="[emailOp]">-->
+    <!--<ng-template #emailOp>-->
+    <!--<a (click)="msg.success('Edit')">修改</a>-->
+    <!--</ng-template>-->
+    <!--<nz-list-item-meta nzTitle="备用邮箱" [nzDescription]="emailDesc">-->
+    <!--<ng-template #emailDesc>-->
+    <!--已绑定邮箱：cip*****.com-->
+    <!--</ng-template>-->
+    <!--</nz-list-item-meta>-->
+    <!--</nz-list-item>-->
+    <!--<nz-list-item [nzActions]="[mfaOp]">-->
+    <!--<ng-template #mfaOp>-->
+    <!--<a (click)="msg.success('Edit')">修改</a>-->
+    <!--</ng-template>-->
+    <!--<nz-list-item-meta nzTitle="MFA 设备" [nzDescription]="mfaDesc">-->
+    <!--<ng-template #mfaDesc>-->
+    <!--未绑定 MFA 设备，绑定后，可以进行二次确认-->
+    <!--</ng-template>-->
+    <!--</nz-list-item-meta>-->
+    <!--</nz-list-item>-->
+</nz-list>

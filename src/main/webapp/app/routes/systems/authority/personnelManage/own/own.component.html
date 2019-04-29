@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <div class="modal-title">关联机构</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="parentData">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">昵称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <input nz-input [(ngModel)]="parentData.nickname" name="nickName" maxlength="50" required
+                   [disabled]="true"/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="myOldCompanies.length>0">
+        <nz-form-label nzSpan="4">已关联机构</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-radio-group [(ngModel)]="chooseCompany" (ngModelChange)="choose(chooseCompany)"
+                            [ngModelOptions]="{standalone: true}">
+                <ng-container *ngFor="let data of myOldCompanies">
+                    <label nz-radio [nzValue]="data" >{{data.companyName}}</label>
+                </ng-container>
+            </nz-radio-group>
+        </nz-form-control>
+        <nz-form-control [nzSpan]="4" [nzOffset]="2" *ngIf="isChecked">
+            <span nz-button nzType="danger" (click)="removeCompany()" style="line-height: 32px;">移除</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择关联机构</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <!--人员关联机构 先支持一个-->
+            <nz-select nzMode="default" style="width: 100%;" nzAllowClear nzPlaceHolder="请选择  (单选支持模糊搜索)"
+                       [(ngModel)]="selectedCompanies" name="companyId" required>
+                <ng-container *ngFor="let option of companyList">
+                    <nz-option [nzLabel]="option.companyName" [nzValue]="option.companyId" *ngIf="option.companyName">
+                    </nz-option>
+                </ng-container>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

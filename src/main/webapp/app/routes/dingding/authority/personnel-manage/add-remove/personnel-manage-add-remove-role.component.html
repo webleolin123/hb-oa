@@ -1,0 +1,27 @@
+<form #f="ngForm" (ngSubmit)="save()" nz-form>
+    <div class="modal-header">
+        <div class="modal-title">{{!parentData.isAdd? '移除' : '添加'}}-角色</div>
+    </div>
+    <ng-container *ngIf="parentData.dingId">
+        <nz-form-item class="mb-sm" *ngIf="roles">
+            <nz-form-label nzSpan="4" >角色名称</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <nz-select
+                    nzAllowClear
+                    nzShowSearch
+                    nzPlaceHolder="选择角色 (支持模糊搜索)"
+                    [nzMaxTagCount]="1"
+                    [(ngModel)]="roleId"
+                    name="selectedRole"
+                    required>
+                    <nz-option *ngFor="let tmp of roles" [nzLabel]="tmp.roleName" [nzValue]="tmp.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+    </ng-container>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

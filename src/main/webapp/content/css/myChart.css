@@ -1,0 +1,10 @@
+.inputBorder{
+    height: 28px;
+    border: 1px solid #ebeef2;
+    vertical-align: middle;
+    padding-left: 10px;
+}
+.inputContainer{
+    text-align: center;
+    margin-bottom: 20px;
+}

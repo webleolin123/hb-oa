@@ -1,0 +1,26 @@
+<page-header [title]="'仪表盘'"></page-header>
+<nz-card>
+    <p style="font-size: 24px;font-weight: bold;">欢迎来到海邦管理后台！</p>
+    <div nz-row>
+        <div nz-col nzSpan="12">
+            <p>九宫格显示控件调用</p>
+            <widgts-nine-grid-view></widgts-nine-grid-view>
+        </div>
+        <div nz-col nzSpan="12">
+            <p>上传图片</p>
+            <nz-upload class="avatar-uploader"
+                       [nzAction]="upLoadUrl"
+                       nzName="avatar"
+                       nzListType="picture-card"
+                       [nzShowUploadList]="false"
+                       [nzBeforeUpload]="beforeUpload"
+                       (nzChange)="handleChange($event)">
+                <ng-container *ngIf="!avatarUrl">
+                    <i nz-icon type="plus"></i>
+                    <div class="ant-upload-text">Upload</div>
+                </ng-container>
+                <img *ngIf="avatarUrl" [src]="avatarUrl" class="avatar">
+            </nz-upload>
+        </div>
+    </div>
+</nz-card>

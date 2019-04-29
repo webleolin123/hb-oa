@@ -1,0 +1,241 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.authority? '添加' : '编辑'}}-审批权限</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="authority && parentData.authority">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">{{authority.roleId==2? '正式' : '测试'}}ID</nz-form-label>
+        <nz-form-control nzSpan=8>
+            <input nz-input [(ngModel)]="authority.id" name="id"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >模块名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-select
+                style="width:100%;"
+                nzAllowClear
+                nzShowSearch
+                nzPlaceHolder="选择模块 (支持模糊搜索)"
+                [nzMaxTagCount]="1"
+                [(ngModel)]="authority.businessModuleId"
+                name="sBusinessModule"
+                required>
+                <nz-option *ngFor="let module of parentData.modules;let i=index;" [nzLabel]="module.businessName" [nzValue]="module.id">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzFor="brandRange">品牌范围</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择品牌范围'" nzId="brandRange" [nzAllowClear]="false"[(ngModel)]="authority.brandRange" name="brandRange">
+                <nz-option [nzValue]="1" nzLabel="全部品牌"></nz-option>
+                <nz-option [nzValue]="2" nzLabel="代理品牌"></nz-option>
+                <nz-option [nzValue]="3" nzLabel="自有品牌"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzFor="permissionType">权限</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择权限'" nzId="permissionType" [nzAllowClear]="false" [(ngModel)]="authority.permissionType" name="permissionType">
+                <nz-option [nzValue]="5" nzLabel="一级审批"></nz-option>
+                <nz-option [nzValue]="6" nzLabel="二级审批"></nz-option>
+                <nz-option [nzValue]="7" nzLabel="抄送"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" nzFor="approvePermissionValue">特殊权限类型</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <nz-select [nzPlaceHolder]="'请选择特殊权限类型'"
+                       nzId="approvePermissionValue"
+                       [nzAllowClear]="false"
+                       [(ngModel)]="authority.approvePermissionValue"
+                       name="approvePermissionValue">
+                <nz-option [nzValue]="1" nzLabel="普通"></nz-option>
+                <nz-option [nzValue]="21" nzLabel="店铺"></nz-option>
+                <nz-option [nzValue]="22" nzLabel="非店铺"></nz-option>
+                <nz-option [nzValue]="31" nzLabel="上架"></nz-option>
+                <nz-option [nzValue]="32" nzLabel="临时下架"></nz-option>
+                <nz-option [nzValue]="33" nzLabel="永久下架"></nz-option>
+                <nz-option [nzValue]="41" nzLabel="日常作图"></nz-option>
+                <nz-option [nzValue]="42" nzLabel="加急作图"></nz-option>
+                <nz-option [nzValue]="43" nzLabel="外包装"></nz-option>
+                <nz-option [nzValue]="44" nzLabel="AI设计"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>
+<form #f="ngForm" nz-form *ngIf="!parentData.authority && !loading ">
+        <nz-form-item class="mb-sm">
+            <nz-form-label nzSpan="2">模块选择</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <label
+                    nz-checkbox
+                    [(ngModel)]="allChecked"
+                    (ngModelChange)="updateAllChecked()"
+                    [nzIndeterminate]="indeterminate"
+                    name="allChecked"
+                >
+                    全选
+                </label>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm">
+            <nz-form-control>
+                <nz-table
+                    [nzData]="businessModules"
+                    [nzShowPagination]="false"
+                    nzBordered
+                    [nzWidthConfig]="widthConfig"
+                >
+                    <tbody>
+                        <tr *ngFor="let module of businessModules">
+                            <td>{{module.businessName}}</td>
+                            <td>
+                                <ng-container *ngFor="let childModule of module.childModules">
+                                    <label nz-checkbox [(ngModel)]="childModule.isSelected"
+                                        name="childModule"
+                                        [nzDisabled]="childModule.isDisabled"
+                                       (ngModelChange)="selectChildModule(childModule)"
+                                    >{{childModule.businessName}}</label>
+                                </ng-container>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm">
+            <nz-form-label>角色选择</nz-form-label>
+            <nz-form-control>
+                <nz-radio-group [(ngModel)]="authority.roleId" name="roleId" required>
+                    <label nz-radio [nzValue]="1">测试</label>
+                    <label nz-radio [nzValue]="2">正式</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm">
+            <nz-form-label>权限选择</nz-form-label>
+            <nz-form-control>
+                <nz-radio-group [(ngModel)]="authority.permissionType" name="permissionType" required>
+                    <label nz-radio [nzValue]="5">一级</label>
+                    <label nz-radio [nzValue]="6">二级</label>
+                    <label nz-radio [nzValue]="7">抄送</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm">
+            <nz-form-control>
+                <button nz-button [nzType]="'primary'" (click)="addPerson()">
+                    <i nz-icon type="plus"></i>
+                    <span>添加人员</span>
+                </button>
+                <div>
+                    <nz-tag
+                        *ngFor="let departmentUser of selectedDepartmentUserList; let i = index"
+                        [nzMode]="'closeable'"
+                        (nzAfterClose)="handleClose(departmentUser)"
+                        [nzColor]="'#108ee9'"
+                    >
+                        {{ sliceTagName(departmentUser.name) }}
+                    </nz-tag>
+                </div>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm" *ngIf="isSelectedPeople && departments">
+            <nz-form-label>选择部门</nz-form-label>
+            <nz-form-control>
+                <nz-select
+                    nzAllowClear
+                    nzShowSearch
+                    nzPlaceHolder="选择部门 (支持模糊搜索)"
+                    [nzMaxTagCount]="1"
+                    [(ngModel)]="departmentId"
+                    (ngModelChange)="loadDepartmentUser(departmentId)"
+                    name="selectedDepartmentId"
+                    required>
+                    <nz-option *ngFor="let tmp of departments" [nzLabel]="tmp.name" [nzValue]="tmp.id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm" *ngIf="isSelectedPeople && departmentId">
+            <nz-form-label>选择人员</nz-form-label>
+            <nz-form-control>
+                <nz-select
+                    nzAllowClear
+                    nzShowSearch
+                    nzPlaceHolder="选择人员 (支持模糊搜索)"
+                    [nzMaxTagCount]="1"
+                    [(ngModel)]="dingId"
+                    (ngModelChange)="selectedDepartmentUser($event)"
+                    name="selectedDepartmentUserId"
+                    required>
+                    <nz-option *ngFor="let tmp of departmentUsers" [nzLabel]="tmp.name" [nzValue]="tmp.userid">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm">
+            <span style="color:rgba(0,0,0,0.85)">类型选择</span>
+        </nz-form-item>
+        <nz-form-item class="mb-sm" *ngIf="(isPicture == false && isShelves == false && isShops==false) || (authority.permissionType==7) || checked.length==0">
+            &nbsp;&nbsp;<nz-form-label nzSpan="2" style="margin: 0 10px">常态选择</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <nz-radio-group [(ngModel)]="authority.approvePermissionValue" name="approvePermissionValue" required>
+                    <label nz-radio [nzValue]="1">普通</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm" *ngIf="isShops && authority.permissionType!=7 && checked.length!=0">
+            &nbsp;&nbsp;<nz-form-label nzSpan="2" style="margin: 0 10px">类型</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <nz-radio-group [(ngModel)]="authority.approvePermissionValue" name="approvePermissionValue" required>
+                    <label nz-radio [nzValue]="21">店铺</label>
+                    <label nz-radio [nzValue]="22">非店铺</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm" *ngIf="isShelves && authority.permissionType!=7 && checked.length!=0">
+            &nbsp;&nbsp;<nz-form-label nzSpan="2" style="margin: 0 10px">上下架类型</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <nz-radio-group [(ngModel)]="authority.approvePermissionValue" name="approvePermissionValue" required>
+                    <label nz-radio [nzValue]="31">上架</label>
+                    <label nz-radio [nzValue]="32">临时下架</label>
+                    <label nz-radio [nzValue]="33">永久下架</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm" *ngIf="isPicture && authority.permissionType!=7 && checked.length!=0">
+            &nbsp;&nbsp;<nz-form-label nzSpan="2" style="margin: 0 10px">作图类型</nz-form-label>
+            <nz-form-control nzSpan="8">
+                <nz-radio-group [(ngModel)]="authority.approvePermissionValue" name="approvePermissionValue" required>
+                    <label nz-radio [nzValue]="41">日常普通</label>
+                    <label nz-radio [nzValue]="42">日常加急</label>
+                    <label nz-radio [nzValue]="43">外包装</label>
+                    <label nz-radio [nzValue]="44">AI设计</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item class="mb-sm" *ngIf="authority.permissionType!=7  && (authority.approvePermissionValue!=21 || checked.length==0)">
+            <nz-form-label>范围选择</nz-form-label>
+            <nz-form-control>
+                <nz-radio-group [(ngModel)]="authority.brandRange" name="brandRange" required>
+                    <label nz-radio [nzValue]="1">全部品牌</label>
+                    <label nz-radio [nzValue]="2">代理品牌</label>
+                    <label nz-radio [nzValue]="3">自有品牌</label>
+                </nz-radio-group>
+            </nz-form-control>
+        </nz-form-item>
+        <div class="modal-footer">
+            <button nz-button type="button" (click)="close()">关闭</button>
+            <!--<button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>-->
+            <button nz-button [disabled]="!f.form.valid || !f.form.dirty || (checked.length==0)" [nzType]="'primary'" (click)="save()">保存</button>
+        </div>
+    </form>

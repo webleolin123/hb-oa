@@ -1,0 +1,26 @@
+<page-header [title]="'会议'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">综合管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">会议</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <nz-button-group>
+            <!--<button nz-button nzType="primary" (click)="importClick()">选择文件上传-->
+                <!--<input #importInput type="file" (change)="change($event)" multiple="false" class="ml-sm file_Input"/>-->
+            <!--</button>-->
+            <!--<button nz-button nzType="default" (click)="export()">导出数据</button>-->
+        </nz-button-group>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            开发中....
+        </nz-card>
+    </div>
+</div>

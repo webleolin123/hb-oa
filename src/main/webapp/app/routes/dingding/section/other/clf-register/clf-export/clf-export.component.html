@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <div class="modal-title">选择导出时间</div>
+</div>
+<form nz-form [nzLayout]="'vertical'">
+    <nz-row nzGutter="16">
+        <nz-col  nzSm="24">
+            <nz-form-item>
+                <nz-form-control nz-col [nzSm]="18" [nzOffset]="6">
+                    <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onChange($event)" nzShowTime name="dateRange" [nzFormat]="dateFormat" [nzSize]="'large'"></nz-range-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+    </nz-row>
+    <div class="modal-footer">
+        <!--<button nz-button [nzType]="'default'" (click)="cancel()">取消</button>-->
+        <button nz-button [nzType]="'primary'" (click)="ok()">确定</button>
+    </div>
+</form>

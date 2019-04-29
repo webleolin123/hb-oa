@@ -1,0 +1,69 @@
+<div class="modal-header">
+    <div class="modal-title">模块-详情</div>
+</div>
+<form #f="ngForm"  nz-form *ngIf="businessModule">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{businessModule.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">业务名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{businessModule.businessName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">业务id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{businessModule.businessType}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">业务链接</nz-form-label>
+        <nz-form-control nzSpan="20">
+            <span>{{businessModule.linkUrl}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">业务层级</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="businessModule.level == 0">父模块</span>
+            <span *ngIf="businessModule.level == 1">一级模块</span>
+            <span *ngIf="businessModule.level == 2">二级模块</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">排序</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{businessModule.seq}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">审批层级数</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{businessModule.seqLevel}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">特殊权限</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="businessModule.approvePermissionType==1">普通</span>
+            <span *ngIf="businessModule.approvePermissionType==2">店铺属性</span>
+            <span *ngIf="businessModule.approvePermissionType==3">上下架专属</span>
+            <span *ngIf="businessModule.approvePermissionType==4">作图</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">状态</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="businessModule.status == 0">删除/不显示</span>
+            <span *ngIf="businessModule.status == 1">正常</span>
+            <span *ngIf="businessModule.status == 2">未开发完成</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="edit(businessModule.id)">编辑</button>
+    </div>
+</form>

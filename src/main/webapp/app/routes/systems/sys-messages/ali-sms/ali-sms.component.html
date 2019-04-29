@@ -1,0 +1,80 @@
+<page-header [title]="'短信推送'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">系统模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">消息通知</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">短信推送</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <!--<button nz-button [nzType]="'primary'" (click)="add()" ><i nz-icon type="plus"></i><span>添加审批权限</span></button>-->
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchItem" name="searchItem" placeholder="请输入关键字查询" id="searchItem">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search()" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;">
+                <nz-table
+                    #ajaxTable
+                    nzBordered
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="alis"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="initData(false)"
+                    [nzShowPagination]="true">
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzShowSort nzSortKey="id">id</th>
+                        <th nzShowSort nzSortKey="kind">推送类型</th>
+                        <th nzShowSort nzSortKey="phone">推送号码</th>
+                        <th nzShowSort nzSortKey="content">推送内容</th>
+                        <th nzShowSort nzSortKey="status">推送状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let ali of alis;">
+                        <td>{{ali.id}}</td>
+                        <td>{{ali.kind}}</td>
+                        <td>{{ali.phone}}</td>
+                        <td>{{ali.content}}</td>
+                        <td><span *ngIf="ali.status == 1">已发送</span></td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="delete(ali)">删除</button>
+                            <button nz-button [nzType]="'primary'" (click)="check(ali.id)">查看</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

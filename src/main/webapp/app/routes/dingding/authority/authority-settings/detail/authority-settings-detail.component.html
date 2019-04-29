@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <div class="modal-title">审批权限-详情</div>
+</div>
+<form #f="ngForm" nz-form *ngIf="authority">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">{{authority.roleId==2? '正式' : '测试'}}ID</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{authority.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">模块id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{authority.businessModuleId}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">模块名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{parentData.businessModuleName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">权限</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span *ngIf="authority.permissionType == 1">添加</span>
+            <span *ngIf="authority.permissionType == 2">删除</span>
+            <span *ngIf="authority.permissionType == 3">修改</span>
+            <span *ngIf="authority.permissionType == 4">查询</span>
+            <span *ngIf="authority.permissionType == 5">一级审批</span>
+            <span *ngIf="authority.permissionType == 6">二级审批</span>
+            <span *ngIf="authority.permissionType == 7">抄送</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">品牌范围</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <ng-container *ngIf="authority.approvePermissionValue !=21&&this.authority.permissionType!=7">
+                <span *ngIf="authority.brandRange == 1">全部品牌</span>
+                <span *ngIf="authority.brandRange == 2">代理品牌</span>
+                <span *ngIf="authority.brandRange == 3">自有品牌</span>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">人员</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{parentData.authority.dingPersonDTO.dingName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

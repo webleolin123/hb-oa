@@ -1,0 +1,117 @@
+<div class="modal-header">
+    <div class="modal-title">短信申请-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="message">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">申请人</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{message.approveInfoDTO.applicant}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">状态</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span [ngSwitch]="message.approveInfoDTO.status">
+                <span *ngSwitchCase="1">等待{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="2">通过{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="3">拒绝{{selectedApproveList.join(' 、')}}的审批</span>
+                <span *ngSwitchCase="12">已完结</span>
+                <span *ngSwitchDefault>已撤销</span>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">店铺</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{message.approveInfoDTO.shopName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">品牌</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{message.approveInfoDTO.brandName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{message.approveInfoDTO.goodName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">短信类型</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="message.smsType == 1">商品短信</span>
+            <span *ngIf="message.smsType == 2">活动短信</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">推送数量</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{message.pushNumber}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">推送事由</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="message.pushCause == 1">单品活动</span>
+            <span *ngIf="message.pushCause == 2">好评活动</span>
+            <span *ngIf="message.pushCause == 3">催收活动</span>
+            <span *ngIf="message.pushCause == 4">店铺活动</span>
+            <span *ngIf="message.pushCause == 5">其他</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">开始时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{message.startDate | date: "yyyy-MM-dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">结束时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{message.endDate | date: "yyyy-MM-dd HH:mm:ss"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">短信内容</nz-form-label>
+        <nz-form-control nzSpan="16">
+              <span *ngIf="message.smsContent!=null" [class.applyReason]="message.smsContent.length>20">{{message.smsContent}}</span>
+              <span *ngIf="message.smsContent==null">无</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm"  *ngIf="message.approveInfoDTO.status == 12">
+        <nz-form-label nzSpan="4">结束时间</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="message.approveInfoDTO.completeDate">{{message.approveInfoDTO.completeDate | date:"yyyy/MM/dd"}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">抄送人</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngFor="let copyTo of selectedCopyToList;let i=index" style="display: inline-block;">
+                <ng-container>
+                    <span *ngIf="i!=selectedCopyToList.length-1">{{copyTo.dingName}}&nbsp;|&nbsp; </span>
+                    <span *ngIf="i==selectedCopyToList.length-1">{{copyTo.dingName}}</span>
+                </ng-container>
+            </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm" *ngIf="actionProcesses">
+        <nz-form-control nzSpan="16" [nzOffset]="4">
+            <ng-container *ngFor="let action of actionProcesses">
+                <div>
+                    <span>{{action.actor}}</span>
+                    <span>{{action.actionDesc}}</span>
+                    <span style="float:right">{{action.actionTime | timeStamp}}</span>
+                    <p *ngIf="action && action.remark!='null' && action.remark!=null" style="margin-left: 25px;">
+                        {{action.remark}}
+                    </p>
+                </div>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

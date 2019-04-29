@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <div class="modal-title">{{!parentData.id? '添加' : '编辑'}}-店铺</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="shop">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">店铺名称</nz-form-label>
+        <nz-form-control nzSpan=16>
+            <input nz-input [(ngModel)]="shop.shopName" name="shopName"  maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4" >店铺关联url前缀</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <input nz-input [(ngModel)]="shop.preLink" name="preLink" maxlength="50" required/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">选择平台</nz-form-label>
+        <nz-form-control  nzSpan="16">
+            <nz-select [nzPlaceHolder]="'请选择平台'" nzId="platformName" [nzAllowClear]="false" [(ngModel)]="shop.platformId" name="platformName" required>
+                <nz-option *ngFor="let tmp of platform;" [nzLabel]="tmp.platformName" [nzValue]="tmp.id"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+    </div>
+</form>

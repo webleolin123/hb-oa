@@ -1,0 +1,70 @@
+<div class="modal-header">
+    <div class="modal-title">安全设置--修改密码</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save()" nz-form [formGroup]="form">
+    <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-sm"></nz-alert>
+    <nz-form-item class="mb-sm">
+        <nz-form-control>
+            <nz-input-group nzSize="large" nz-popover nzAddonBeforeIcon="anticon anticon-lock">
+                <nz-form-label>当前密码</nz-form-label>
+                <nz-form-control>
+                    <input nz-input type="password" formControlName="currentPassword" maxlength="50"
+                           placeholder="请输入当前密码" style="font-size: 14px;" required/>
+                </nz-form-control>
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <nz-popover [nzPlacement]="'right'" [nzTrigger]="'focus'" [(nzVisible)]="visible"
+                        nzOverlayClassName="register-password-cdk"
+                        [nzOverlayStyle]="{'width.px': 240}">
+                <nz-input-group nzSize="large" nz-popover nzAddonBeforeIcon="anticon anticon-lock">
+                    <nz-form-label>新密码</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input type="password" formControlName="newPassword" placeholder="请输入新密码" style="font-size: 14px;" required>
+                    </nz-form-control>
+                </nz-input-group>
+                <nz-form-explain *ngIf="newPassword.dirty && newPassword.errors">无效输入,请重输！</nz-form-explain>
+                <ng-template #nzTemplate>
+                    <div style="padding: 4px 0;">
+                        <ng-container [ngSwitch]="status">
+                            <div *ngSwitchCase="'ok'" class="success">强度：强</div>
+                            <div *ngSwitchCase="'pass'" class="warning">强度：中</div>
+                            <div *ngSwitchDefault class="error">强度：太短</div>
+                        </ng-container>
+                        <div class="progress-{{status}}">
+                            <nz-progress [nzPercent]="progress" [nzStatus]="passwordProgressMap[status]"
+                                         [nzStrokeWidth]="6"
+                                         [nzShowInfo]="false"></nz-progress>
+                        </div>
+                        <p class="mt-sm">请至少输入 6 个字符。请不要使用容易被猜到的密码。</p>
+                    </div>
+                </ng-template>
+            </nz-popover>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <nz-input-group nzSize="large" nzAddonBeforeIcon="anticon anticon-lock">
+                <nz-form-label>确认密码</nz-form-label>
+                <nz-form-control>
+                    <input nz-input type="password" formControlName="confirm" placeholder="请输入确认密码" style="font-size: 14px;" required>
+                </nz-form-control>
+            </nz-input-group>
+            <nz-form-explain *ngIf="confirm.dirty && confirm.errors">
+                <ng-container *ngIf="confirm.errors.required">
+                    请确认密码！
+                </ng-container>
+                <ng-container *ngIf="confirm.errors.equar">
+                    两次输入的密码不匹配!
+                </ng-container>
+            </nz-form-explain>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button [disabled]="!f.form.valid || !f.form.dirty" [nzType]="'primary'">保存</button>
+        <!--<button nz-button [nzType]="'primary'">保存</button>-->
+    </div>
+</form>

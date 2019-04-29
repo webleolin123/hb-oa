@@ -1,0 +1,201 @@
+html,
+body{
+    width:100%;
+    height:100%;
+    margin:0px;
+    padding:0;
+    font-size:13px;
+}
+ul,
+li{
+    padding:0;
+    margin:0;
+    list-style:none;
+}
+p{
+    margin-bottom: 1px!important;
+}
+div { margin:0 auto;}
+
+*html body {height:100%; }
+
+#outer-box{
+    height: 100%;
+    min-height:100%;
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-top: -24px;
+}
+#container{
+    width: 100%;
+    height: 853px;
+    min-height: 100%;
+    outline:none;
+    margin-bottom: -24px;
+}
+#panel{
+    margin-right: 10px;
+    margin-top: 24px;
+    position: absolute;
+    top:17%;
+    bottom:0;
+    right:0;
+    height:65%;
+    /*overflow:auto;*/
+    overflow-y:scroll;
+    width:18%;
+    z-index:999;
+    border-left:1px solid #eaeaea;
+    background:#fff;
+    transition: width 1s;
+    -moz-transition: width 1s; /* Firefox 4 */
+    -webkit-transition: width 1s; /* Safari 和 Chrome */
+    -o-transition: width 1s;
+}
+#btnList{
+    position:absolute;
+    right:300px;
+    top:0;
+    padding:0;
+    margin:0;
+    z-index:999;
+}
+#btnList li{
+    padding:5px;
+}
+#btnList input{
+    padding:3px 10px;
+    min-width:120px;
+}
+li.poibox{
+    border-bottom:1px solid #eaeaea;
+    border-left:2px solid rgba(0,0,0,0);
+    padding:10px 3px;
+    cursor:pointer;
+}
+li.poibox.selected{
+    border-left-color:#f00;
+    background:#f6f6f6;
+}
+li.poibox:hover{
+    background:#f6f6f6;
+}
+li.poibox:last-child{
+    border-bottom:none;
+}
+h3.poi-title{
+    margin:3px 0;
+    font-size:13px;
+}
+li{
+    padding: 5px!important;
+}
+.poibox .poi-info-left{
+    padding-left:8px
+}
+.poi-addr{
+    margin:7px 0 0;
+}
+p.poi-addr{
+    margin-bottom: 1px!important;
+}
+.poibox .poi-img{
+    display:inline-block;
+    width:100%;
+    height:100%;
+    background-size:cover;
+    background-position:50% 50%;
+}
+.poibox .poi-imgbox{
+    width:100px;
+    height:74px;
+    vertical-align:top;
+    float:right;
+    margin:0 8px;
+    overflow:hidden;
+}
+.poi-img{
+    float: right!important;
+}
+.amap-simple-marker.my-marker .amap-simple-marker-label{
+    font-size:12px;
+    color:#eee;
+    font-family:sans-serif;
+}
+.selected .amap-simple-marker.my-marker .amap-simple-marker-label{
+    font-size:14px;
+    color:orange;
+    font-weight:700;
+}
+@-webkit-keyframes flash{
+    from,
+    50%,
+    to{
+        opacity:1;
+    }
+    25%,
+    75%{
+        opacity:0;
+    }
+}
+@keyframes flash{
+    from,
+    50%,
+    to{
+        opacity:1;
+    }
+    25%,
+    75%{
+        opacity:0;
+    }
+}
+.flash{
+    -webkit-animation-name:flash;
+    animation-name:flash;
+}
+.animated{
+    -webkit-animation-duration:1s;
+    animation-duration:1s;
+    -webkit-animation-fill-mode:both;
+    animation-fill-mode:both;
+}
+.scrollbar1::-webkit-scrollbar-track{
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+    background-color:#fff;
+}
+.scrollbar1::-webkit-scrollbar{
+    width:6px;
+    background-color:#fff;
+}
+.scrollbar1::-webkit-scrollbar-thumb{
+    background-color:#aaa;
+}
+.clear{
+    clear:both;
+}
+#keywords{
+    position: absolute;
+    right: 20%;
+    top: 20%;
+    line-height: 200%;
+    padding: 0 5px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 150px;
+}
+#toggleBtn{
+    width: 109px;
+    position: absolute;
+    right: 21%;
+    top: 25%;
+    font-size: 14px;
+    border-radius: 4px;
+}
+.pagination{
+    display: inline-block;
+    padding-left: 0;
+    margin: 7px;
+    border-radius: 4px;
+}
+

@@ -1,0 +1,97 @@
+<page-header [title]="'工资条'" [action]="action"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">综合管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">工资条</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #action>
+        <nz-button-group>
+            <button nz-button nzType="primary" (click)="importClick()">工资发放通知导入
+                <input #importInput type="file" (change)="change($event)" multiple="false" class="ml-sm file_Input"/>
+            </button>
+            <button nz-button nzType="default" (click)="download()">组织架构信息导出</button>
+        </nz-button-group>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false">
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="searchType" name="searchType" [nzAllowClear]="false">
+                            <nz-option nzValue="工资月份" nzLabel="工资月份"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-month-picker [nzFormat]="monthFormat" name="monthPick" [(ngModel)]="date"
+                                         (ngModelChange)="monthChange($event)"
+                                         nzPlaceHolder="请选择工资月份"></nz-month-picker>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search(true)" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false" style="min-height: 717px!important;">
+                <nz-table
+                    #ajaxTable
+                    nzBordered
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="salaryInfo"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="initData(false)"
+                    [nzShowPagination]="true">
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzShowSort nzSortKey="id">id</th>
+                        <th nzShowSort nzSortKey="createDate">工资发放通知导入时间</th>
+                        <th nzShowSort nzSortKey="month">工资月份</th>
+                        <th nzShowSort nzSortKey="status">状态</th>
+                        <th>详情查看</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let salary of salaryInfo;">
+                        <td>{{salary.id}}</td>
+                        <td>{{salary.createDate | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                        <td>{{salary.month}}</td>
+                        <td [ngSwitch]="salary.status">
+                            <span *ngSwitchCase="1">上传中</span>
+                            <span *ngSwitchCase="2">操作成功</span>
+                            <span *ngSwitchCase="3">部分成功</span>
+                            <span *ngSwitchCase="4">完全失败</span>
+                            <span *ngSwitchDefault>未知参数</span>
+                        </td>
+                        <td>
+                            <button nz-button [nzType]="'primary'" (click)="showDetail(salary.keyCode)">记录查看</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <div class="modal-title">规则-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="helpRole">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">规则id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{helpRole.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">模块</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <ng-container [ngSwitch]="helpRole.businessType">
+                <span *ngSwitchCase="0">全部</span>
+                <span *ngSwitchCase="1">直通车</span>
+                <span *ngSwitchCase="2">会议</span>
+                <span *ngSwitchCase="3">视觉</span>
+                <span *ngSwitchCase="4">钻展</span>
+                <span *ngSwitchCase="5">达人</span>
+                <span *ngSwitchCase="6">淘客</span>
+                <span *ngSwitchCase="7">短信</span>
+                <span *ngSwitchDefault>参数异常</span>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">问题</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{helpRole.question}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">答案</nz-form-label>
+        <nz-form-control nzSpan="20">
+            <span>{{helpRole.answerStr}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">有效期</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{helpRole.validityPeriod | date: 'yyyy-MM-dd'}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">是否需要通知</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="helpRole.isNeedToNotify == 0">否</span>
+            <span *ngIf="helpRole.isNeedToNotify == 1">是</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">状态</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span *ngIf="helpRole.status == 1">正常</span>
+            <span *ngIf="helpRole.status == 0">删除</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

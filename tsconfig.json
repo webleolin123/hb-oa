@@ -1,0 +1,32 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "declaration": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "target/www/app",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "plugins": [
+      { "name": "tslint-language-service"}
+    ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "baseUrl": "./src/main/webapp/",
+    "paths": {
+      "@shared": [ "app/shared/index" ],
+      "@shared/*": [ "app/shared/*" ],
+      "@core": [ "app/core/index" ],
+      "@core/*": [ "app/core/*" ],
+      "@env/*": [ "environments/*" ]
+    },
+    "importHelpers": true
+  }
+}

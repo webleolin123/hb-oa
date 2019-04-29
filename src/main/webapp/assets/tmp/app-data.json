@@ -1,0 +1,498 @@
+{
+    "app": {
+        "name": "Hibont",
+        "description": "Ng-zorro admin panel front-end framework"
+    },
+    "menu": [
+        {
+            "text": "主导航",
+            "i18n": "主导航",
+            "group": true,
+            "hideInBreadcrumb": false,
+            "children": [
+                {
+                    "text": "首页",
+                    "i18n": "首页",
+                    "icon": "anticon anticon-home",
+                    "link": "/dingding/home"
+                }
+            ]
+        },
+        {
+            "text": "钉钉OA",
+            "i18n": "钉钉模块",
+            "group": true,
+            "hideInBreadcrumb": false,
+            "children": [
+                {
+                    "text": "基础数据",
+                    "i18n": "基础数据",
+                    "icon": "anticon anticon-bars",
+                    "children": [
+                        {
+                            "text": "数据管理",
+                            "i18n": "数据管理",
+                            "children": [
+                                {
+                                    "text": "平台管理",
+                                    "link": "/dingding/section/platform",
+                                    "i18n": "平台"
+                                },
+                                {
+                                    "text": "品牌管理",
+                                    "link": "/dingding/section/brand",
+                                    "i18n": "品牌"
+                                },
+                                {
+                                    "text": "店铺管理",
+                                    "link": "/dingding/section/shop",
+                                    "i18n": "店铺"
+                                },
+                                {
+                                    "text": "商品管理",
+                                    "link": "/dingding/section/good",
+                                    "i18n": "商品"
+                                },
+                                {
+                                    "text": "商品SKU管理",
+                                    "link": "/dingding/section/sku",
+                                    "i18n": "SKU"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "数据管理",
+                            "i18n": "辅助管理",
+                            "children": [
+                                {
+                                    "text": "帮助规则",
+                                    "link": "/dingding/section/help-roles",
+                                    "i18n": "规则"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "text": "开发管理",
+                    "i18n": "开发管理",
+                    "icon": "anticon anticon-bulb",
+                    "children": [
+                        {
+                            "text": "开发管理",
+                            "i18n": "开发管理",
+                            "children": [
+                                {
+                                    "text": "开发立项",
+                                    "link": "/dingding/section/dev",
+                                    "i18n": "开发立项"
+                                },
+                                {
+                                    "text": "项目管理",
+                                    "link": "/dingding/section/project",
+                                    "i18n": "项目管理"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "设计管理",
+                            "i18n": "设计管理",
+                            "children": [
+                                {
+                                    "text": "包装设计申请",
+                                    "link": "/dingding/section/pack",
+                                    "i18n": "包装设计申请"
+                                },
+                                {
+                                    "text": "视频拍摄申请",
+                                    "link": "/dingding/section/video",
+                                    "i18n": "视频拍摄申请"
+                                },
+                                {
+                                    "text": "页面设计申请",
+                                    "link": "/dingding/section/page",
+                                    "i18n": "页面设计申请"
+                                },
+                                {
+                                    "text": "ID设计申请",
+                                    "link": "/dingding/section/ID",
+                                    "i18n": "ID设计申请"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "业务管理",
+                            "i18n": "业务管理",
+                            "children": [
+                                {
+                                    "text": "取样申请",
+                                    "link": "/dingding/section/sampling",
+                                    "i18n": "取样申请"
+                                },
+                                {
+                                    "text": "提交报告",
+                                    "link": "/dingding/section/submit-report",
+                                    "i18n": "提交报告"
+                                },
+                                {
+                                    "text": "合同审核",
+                                    "link": "/dingding/section/contract",
+                                    "i18n": "合同审核"
+                                },
+                                {
+                                    "text": "采购审核",
+                                    "link": "/dingding/section/purchase",
+                                    "i18n": "采购审核"
+                                },
+                                {
+                                    "text": "会议申请",
+                                    "link": "/dingding/section/conference",
+                                    "i18n": "会议申请"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "text": "销售管理",
+                    "i18n": "销售管理",
+                    "icon": "anticon anticon-tag",
+                    "children": [
+                        {
+                            "text": "销售管理",
+                            "i18n": "销售管理",
+                            "children": [
+                                {
+                                    "text": "销售立项",
+                                    "link": "/dingding/section/sale-dev",
+                                    "i18n": "销售立项"
+                                },
+                                {
+                                    "text": "销售管理",
+                                    "link": "/dingding/section/sale-pro",
+                                    "i18n": "销售管理"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "产品管理",
+                            "i18n": "产品管理",
+                            "children": [
+                                {
+                                    "text": "价格申请",
+                                    "link": "/dingding/section/price",
+                                    "i18n": "价格申请"
+                                },
+                                {
+                                    "text": "预售申请",
+                                    "link": "/dingding/section/pre-sale",
+                                    "i18n": "预售申请"
+                                },
+                                {
+                                    "text": "上下架申请",
+                                    "link": "/dingding/section/shelve",
+                                    "i18n": "上下架申请"
+                                },
+                                {
+                                    "text": "库存调拨申请",
+                                    "link": "/dingding/section/stock",
+                                    "i18n": "库存调拨申请"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "推广管理",
+                            "i18n": "推广管理",
+                            "children": [
+                                {
+                                    "text": "直通车申请",
+                                    "link": "/dingding/section/zhi-tong-che",
+                                    "i18n": "直通车申请"
+                                },
+                                {
+                                    "text": "钻展申请",
+                                    "link": "/dingding/section/zuan-zhan",
+                                    "i18n": "钻展申请"
+                                },
+                                {
+                                    "text": "销售方案",
+                                    "link": "/dingding/section/sale-plan",
+                                    "i18n": "销售方案"
+                                },
+                                {
+                                    "text": "淘宝客申请",
+                                    "link": "/dingding/section/tao-bao",
+                                    "i18n": "淘宝客申请"
+                                },
+                                {
+                                    "text": "短信申请",
+                                    "link": "/dingding/section/duan-xin",
+                                    "i18n": "短信申请"
+                                },
+                                {
+                                    "text": "达人申请",
+                                    "link": "/dingding/section/daren",
+                                    "i18n": "达人申请"
+                                },
+                                {
+                                    "text": "店铺广告位资源申请",
+                                    "link": "/dingding/section/shop-ad-resource",
+                                    "i18n": "店铺广告位资源申请"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "促销管理",
+                            "i18n": "促销管理",
+                            "children": [
+                                {
+                                    "text": "赠品申请",
+                                    "link": "/dingding/section/gift",
+                                    "i18n": "赠品申请"
+                                },
+                                {
+                                    "text": "满减申请",
+                                    "link": "/dingding/section/reduce",
+                                    "i18n": "满减申请"
+                                },
+                                {
+                                    "text": "优惠券申请",
+                                    "link": "/dingding/section/coupon",
+                                    "i18n": "优惠券申请"
+                                }
+                            ]
+                        },
+                        {
+                            "text": "活动管理",
+                            "i18n": "活动管理",
+                            "children": [
+                                {
+                                    "text": "白名单申请(商品团、品牌团、主题团)",
+                                    "link": "/dingding/section/white-list",
+                                    "i18n": "白名单申请(商品团、品牌团、主题团)"
+                                },
+                                {
+                                    "text": "淘抢购(商品团、品牌团、主题团)",
+                                    "link": "/dingding/section/tao-qg",
+                                    "i18n": "淘抢购(商品团、品牌团、主题团)"
+                                },
+                                {
+                                    "text": "聚划算(商品团、品牌团、主题团)",
+                                    "link": "/dingding/section/ju-hua-suan",
+                                    "i18n": "聚划算(商品团、品牌团、主题团)"
+                                },
+                                {
+                                    "text": "其他(天天特价、公域活动)",
+                                    "link": "/dingding/section/activity-other",
+                                    "i18n": "其他(天天特价、公域活动)"
+                                },
+                                {
+                                    "text": "微信推广",
+                                    "link": "/dingding/section/weixin",
+                                    "i18n": "微信推广"
+                                },
+                                {
+                                    "text": "客服推广",
+                                    "link": "/dingding/section/customer",
+                                    "i18n": "客服推广"
+                                },
+                                {
+                                    "text": "活动存盘",
+                                    "link": "/dingding/section/event-save",
+                                    "i18n": "活动存盘"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "text": "综合管理",
+                    "i18n": "综合管理",
+                    "icon": "anticon anticon-appstore",
+                    "children": [
+                        {
+                            "text": "工资条",
+                            "link": "/dingding/section/salary",
+                            "i18n": "工资条"
+                        },
+                        {
+                            "text": "考勤表",
+                            "link": "/dingding/section/attendance",
+                            "i18n": "考勤表"
+                        },
+                        {
+                            "text": "售后登记管理",
+                            "link": "/dingding/section/clf-register",
+                            "i18n": "售后登记管理"
+                        },
+                        {
+                            "text": "负面评价采集",
+                            "link": "/dingding/section/appraise",
+                            "i18n": "负面评价采集"
+                        },
+                        {
+                            "text": "会议",
+                            "link": "/dingding/section/meetings",
+                            "i18n": "会议管理"
+                        }
+                    ]
+                },
+                {
+                    "text": "钉钉权限",
+                    "i18n": "钉钉权限",
+                    "icon": "anticon anticon-eye",
+                    "children": [
+                        {
+                            "text": "权限设置",
+                            "link": "/dingding/authority/authority-settings",
+                            "i18n": "权限设置"
+                        },
+                        {
+                            "text": "模块管理",
+                            "link": "/dingding/authority/business-module",
+                            "i18n": "模块管理"
+                        },
+                        {
+                            "text": "部门管理",
+                            "link": "/dingding/authority/department-manage",
+                            "i18n": "部门管理"
+                        },
+                        {
+                            "text": "角色管理",
+                            "link": "/dingding/authority/roles-manage",
+                            "i18n": "角色管理"
+                        },
+                        {
+                            "text": "人员管理",
+                            "link": "/dingding/authority/personnel-manage",
+                            "i18n": "人员管理"
+                        }
+                    ]
+                },
+                {
+                    "text": "消息通知",
+                    "i18n": "消息通知",
+                    "icon": "anticon anticon-notification",
+                    "children": [
+                        {
+                            "text": "消息中心",
+                            "link": "/dingding/messages/notification",
+                            "i18n": "消息中心"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "text": "系统模块",
+            "i18n": "系统模块",
+            "group": true,
+            "hideInBreadcrumb": false,
+            "children": [
+                {
+                    "text": "系统设置",
+                    "i18n": "系统设置",
+                    "icon": "anticon anticon-setting",
+                    "children": [
+                        {
+                            "text": "数据字典",
+                            "link": "/systems/settings/dict",
+                            "i18n": "数据字典"
+                        },
+                        {
+                            "text": "菜单设置",
+                            "link": "/systems/settings/menu-settings",
+                            "i18n": "菜单设置"
+                        },
+                        {
+                            "text": "敏感词",
+                            "link": "/systems/settings/tabooed",
+                            "i18n": "敏感词"
+                        },
+                        {
+                            "text": "消息设置",
+                            "link": "/systems/settings/messages-settings",
+                            "i18n": "消息设置"
+                        },
+                        {
+                            "text": "修改密码",
+                            "link": "/systems/user/settings/security",
+                            "i18n": "修改密码"
+                        },
+                        {
+                            "text": "用户管理",
+                            "link": "/systems/user/settings/base",
+                            "i18n": "用户管理"
+                        },
+                        {
+                            "text": "浏览器支持",
+                            "link": "/systems/settings/browserSupport",
+                            "i18n": "浏览器支持"
+                        },
+                        {
+                            "text": "个人信息",
+                            "link": "/systems/user/settings/base",
+                            "i18n": "个人信息"
+                        }
+                    ]
+                },
+                {
+                    "text": "消息通知",
+                    "i18n": "消息通知",
+                    "icon": "anticon anticon-message",
+                    "children": [
+                        {
+                            "text": "消息通知",
+                            "link": "/systems/sys-messages/message",
+                            "i18n": "消息通知"
+                        },
+                        {
+                            "text": "短信推送",
+                            "link": "/systems/sys-messages/ali-sms",
+                            "i18n": "短信推送"
+                        },
+                        {
+                            "text": "百度推送",
+                            "link": "/systems/sys-messages/baidu-sms",
+                            "i18n": "百度推送"
+                        }
+                    ]
+                },
+                {
+                    "text": "用户管理",
+                    "i18n": "用户管理",
+                    "icon": "anticon anticon-team",
+                    "children": [
+                        {
+                            "text": "个人信息",
+                            "link": "/systems/user/settings/base",
+                            "i18n": "个人信息"
+                        }
+                    ]
+                },
+                {
+                    "text": "权限管理",
+                    "i18n": "权限管理",
+                    "icon": "anticon anticon-security-scan",
+                    "children": [
+                        {
+                            "text": "角色管理",
+                            "link": "/systems/authority/roles",
+                            "i18n": "角色管理"
+                        },
+                        {
+                            "text": "人员管理",
+                            "link": "/systems/authority/personnel",
+                            "i18n": "人员管理"
+                        },
+                        {
+                            "text": "机构管理",
+                            "link": "/systems/authority/mechanism",
+                            "i18n": "机构管理"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

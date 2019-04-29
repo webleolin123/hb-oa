@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <div class="modal-title">负面评价详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="appraise">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">淘宝ID</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.customerId}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">订单号</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.orderCode}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品ID</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.goodsId}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.goodsName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">商品sku</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.sku}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">评价</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <ng-container *ngFor="let content of appraise.appraiseContents">
+                <span>{{content.appraise}}&#x3000;({{content.when.substring(0, 10)}}  {{content.when.substring(11, 19)}})</span>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">原因</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.cause}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">原因分析</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.analysisOfCauses}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">是否联系</nz-form-label>
+        <nz-form-control nzSpan="8">
+               <span [ngSwitch]="appraise.touch" >
+                    <span *ngSwitchCase="false">否</span>
+                    <span *ngSwitchCase="true">是</span>
+                </span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">接待客服</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.react}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">处理方案</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{appraise.proposalsForHandling}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">标签</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <ng-container *ngFor="let item of appraise.appraiseContents">
+                <button nz-button nzType="danger" nzGhost nzSize="small"
+                        *ngFor="let appraiseLabel of item.appraiseLabels" style="margin-right: 5px">{{appraiseLabel.label}}</button>
+            </ng-container>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="save()">确定</button>
+    </div>
+</form>

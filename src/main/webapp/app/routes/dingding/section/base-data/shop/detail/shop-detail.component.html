@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <div class="modal-title">店铺-详情</div>
+</div>
+<form #f="ngForm" (ngSubmit)="save(f.form)" nz-form *ngIf="shop">
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">店铺id</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{shop.id}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">店铺名称</nz-form-label>
+        <nz-form-control nzSpan="8">
+            <span>{{shop.shopName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="mb-sm">
+        <nz-form-label nzSpan="4">平台</nz-form-label>
+        <nz-form-control nzSpan="16">
+            <span>{{shop.platformName}}</span>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

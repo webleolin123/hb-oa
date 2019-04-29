@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <div class="modal-title">上传失败！下列员工的工号未与钉钉绑定。请选择对应部门及成员，完成绑定后重新上传！</div>
+</div>
+<form #f="ngForm" nz-form *ngIf="parentData">
+    <ng-container *ngFor="let tmp of parentData;let i=index">
+        <nz-form-item class="mb-sm">
+            <nz-form-label nzSpan="2">员工</nz-form-label>
+            <nz-form-control nzSpan=2>
+                <span>{{tmp.name}}</span>
+            </nz-form-control>
+            <nz-form-label nzSpan="2">工号</nz-form-label>
+            <nz-form-control nzSpan=2>
+                <span>{{tmp.jobNum}}</span>
+            </nz-form-control>
+            <nz-form-control nzSpan="6">
+                <nz-select
+                           nzAllowClear
+                           nzShowSearch
+                           nzPlaceHolder="部门 (支持模糊搜索)"
+                           [nzDisabled]="selectedValue[i].isBind"
+                           [(ngModel)]="selectedValue[i].departmentName"
+                           (ngModelChange)="loadDepartmentUser($event)"
+                           name="selectedDepartmentId"
+                           required>
+                        <nz-option  *ngFor="let tmp of departmentData" [nzLabel]="tmp" [nzValue]="tmp">
+                        </nz-option>
+                </nz-select>
+            </nz-form-control>
+            <ng-container>
+                <nz-form-control nzSpan=6 [nzOffset]="1">
+                    <nz-select
+                               nzAllowClear
+                               nzShowSearch
+                               nzPlaceHolder="部门成员 (支持模糊搜索)"
+                               [nzDisabled]="selectedValue[i].isBind"
+                               [nzMaxTagCount]="1"
+                               [(ngModel)]="selectedValue[i].userid"
+                               name="selectedDepartmentUserId"
+                               required>
+                            <nz-option *ngFor="let departmentUser of departmentUserData" [nzLabel]="departmentUser.name" [nzValue]="departmentUser.userid">
+                            </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </ng-container>
+            <nz-form-control nzSpan=2 [nzOffset]="1">
+                <button nz-button [disabled]="!selectedValue[i].userid" (click)="bindDingding(tmp,selectedValue[i].userid,i)" [nzType]="'primary'" *ngIf="!selectedValue[i].isBind">绑定</button>
+                <button nz-button [disabled]="selectedValue[i].isBind" [nzType]="'primary'" *ngIf="selectedValue[i].isBind">已绑定</button>
+            </nz-form-control>
+        </nz-form-item>
+    </ng-container>
+    <div class="modal-footer">
+        <button nz-button [nzType]="'primary'" (click)="close()">确定</button>
+    </div>
+</form>

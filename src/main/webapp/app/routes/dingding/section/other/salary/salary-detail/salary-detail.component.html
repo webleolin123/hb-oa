@@ -1,0 +1,106 @@
+<page-header [title]="'记录详情'"
+             [breadcrumb]="breadcrumb">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item><a routerLink="/">home</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">钉钉模块</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">综合管理</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a routerLink="/dingding/section/salary">工资条</a></nz-breadcrumb-item>
+            <nz-breadcrumb-item><a href="javascript:;">记录详情</a></nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+</page-header>
+<div nz-row [nzGutter]="16">
+    <div nz-col nzXs="24" nzSm="24" nzMd="24">
+        <nz-card [nzBordered]="false" [nzTitle]="moreTitle">
+            <ng-template #moreTitle>
+                <h4>记录详情</h4>
+            </ng-template>
+            <form nz-form [nzLayout]="'inline'" class="search-form" style="margin-left: 24px;">
+                <nz-form-item>
+                    <nz-form-label nzFor="name">姓名</nz-form-label>
+                    <nz-form-control>
+                        <input nz-input [(ngModel)]="searchContent" name="name" placeholder="请输入姓名" id="name">
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="importStatus">导入状态</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择'" nzId="importStatus" [nzShowSearch]="true" [(ngModel)]="statusValue" name="importStatus">
+                            <nz-option *ngFor="let tmp of importStatus; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="noticeStatus">通知状态</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [nzPlaceHolder]="'请选择'" nzId="noticeStatus" [nzShowSearch]="true" [(ngModel)]="sendMessageStatusValue" name="noticeStatus">
+                            <nz-option *ngFor="let tmp of noticeStatus; let idx = index" [nzLabel]="tmp" [nzValue]="idx"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="search()" [nzType]="'primary'">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-control>
+                        <button nz-button (click)="initData(true)" [nzType]="'primary'">重置</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+            <nz-card [nzBordered]="false">
+                <nz-table
+                    #ajaxTable
+                    nzBordered
+                    nzShowSizeChanger
+                    [nzFrontPagination]="false"
+                    [nzData]="salaryInfo"
+                    [nzLoading]="loading"
+                    [nzTotal]="totalElements"
+                    [(nzPageIndex)]="page"
+                    [(nzPageSize)]="itemsPerPage"
+                    [nzShowTotal]="totalTemplate"
+                    (nzPageIndexChange)="loadAll()"
+                    (nzPageSizeChange)="initData(false)"
+                    [nzShowPagination]="true">
+                    <thead (nzSortChange)="sort($event)" nzSingleSort>
+                    <tr>
+                        <th nzShowSort nzSortKey="department">部门</th>
+                        <th nzShowSort nzSortKey="name">姓名</th>
+                        <th nzShowSort nzSortKey="bankName">开户银行</th>
+                        <th nzShowSort nzSortKey="bankCode">银行卡号</th>
+                        <th nzShowSort nzSortKey="status">状态</th>
+                        <th nzShowSort nzSortKey="month">工资月份</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let salary of salaryInfo;let i=index">
+                        <td>{{salary.department}}</td>
+                        <td>{{salary.name}}</td>
+                        <td>{{salary.bankName}}</td>
+                        <td>{{salary.bankCode}}</td>
+                        <td>
+                         <span [ngSwitch]="salary.status">
+                           <span *ngSwitchCase="1">导入失败</span>
+                           <span *ngSwitchCase="2">导入成功</span>
+                           <span *ngSwitchDefault>未知参数</span>
+                        </span>
+                            <span [ngSwitch]="salary.sendMessageStatus">
+                           <span *ngSwitchCase="1">(通知失败)</span>
+                           <span *ngSwitchCase="2">(已通知)</span>
+                           <span *ngSwitchDefault>(未知参数)</span>
+                        </span>
+                        </td>
+                        <td>{{salary.month}}</td>
+                    </tr>
+                    </tbody>
+                </nz-table>
+                <ng-template #totalTemplate let-total>
+                    总共 {{totalElements}} 条
+                </ng-template>
+            </nz-card>
+        </nz-card>
+    </div>
+</div>
